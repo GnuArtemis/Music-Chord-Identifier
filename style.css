@@ -30,3 +30,40 @@
     position: relative;
     margin: 0 auto;
 }
+.aColor{
+    background-color: indigo;
+}
+.aShColor{
+    background-color: violet;
+}
+.bColor{
+    background-color: pink;
+}
+.cColor{
+    background-color: red;
+}
+.cShColor{
+    background-color: orangered;
+}
+.dColor{
+    background-color: orange;
+}
+.dShColor{
+    background-color: yellow;
+}
+.eColor{
+    background-color: yellowgreen;
+}
+.fColor{
+    background-color: green;
+}
+.fShColor{
+    background-color: lightblue;
+}
+.gColor{
+    background-color: blue;
+}
+.gShColor{
+    background-color: darkblue
+}
+
