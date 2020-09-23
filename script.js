@@ -6,43 +6,43 @@
 //     console.log(response);
 // })
 
-// TODO: create click events for a, aSh, b, c, cSh, d, dSh, e, f, fSh, g, gSh
-// A, A#, B, C, C#, D, D#, E, F, F#, G, G#
 
+// click events with color class added.
+// TODO: add calls to API when ready
 $("#a").on("click", function(){
-
+    $("#a").addClass("aColor");
 })
 $("#aSh").on("click", function(){
-
+    $("#aSh").addClass("aShColor")
 })
-$("b").on("click", function(){
-
+$("#b").on("click", function(){
+    $("#b").addClass("bColor")
 })
 $("#c").on("click", function(){
-   
+    $("#c").addClass("cColor")
 })
 $("#cSh").on("click", function(){
-
+    $("#cSh").addClass("cShColor")
 })
 $("#d").on("click", function(){
-  
+    $("#d").addClass("dColor")
 })
 $("#dSh").on("click", function(){
-
+    $("#dSh").addClass("dShColor")
 })
 $("#e").on("click", function(){
-
+    $("#e").addClass("eColor")
 })
 $("#f").on("click", function(){
-
+    $("#f").addClass("fColor")
 })
-$("#FSh").on("click", function(){
-  
+$("#fSh").on("click", function(){
+    $("#fSh").addClass("fShColor")
 })
 $("#g").on("click", function(){
-
+    $("#g").addClass("gColor")
 })
 $("#gSh").on("click", function(){
-  
+    $("#gSh").addClass("gShColor")
 })
 
