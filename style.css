@@ -4,12 +4,12 @@
 
 .white {
     border: 1px solid black;
-    background-color: white;
+    /* background-color: white; */
     z-index: 0;
 }
 
 .black {
-    background-color: black;
+    /* background-color: black; */
     color: white;
     z-index: 1;
 }
@@ -30,41 +30,57 @@
     position: relative;
     margin: 0 auto;
 }
-.aColor{
-    background-color: indigo;
+
+.key[data-active="true"] {
+    margin-top: 5px;
+    box-shadow: none;
 }
-.aShColor{
-    background-color: violet;
+
+.key[data-note='A'][data-active="true"] {
+    background-color: indigo !important;
 }
-.bColor{
-    background-color: pink;
+
+.key[data-note='A#'][data-active="true"] {
+    background-color: violet !important;
 }
-.cColor{
-    background-color: red;
+
+.key[data-note='B'][data-active="true"] {
+    background-color: pink !important;
 }
-.cShColor{
-    background-color: orangered;
+
+.key[data-note='C'][data-active="true"] {
+    background-color: red !important;
 }
-.dColor{
-    background-color: orange;
+
+.key[data-note='C#'][data-active="true"] {
+    background-color: orangered !important;
 }
-.dShColor{
-    background-color: yellow;
+
+.key[data-note='D'][data-active="true"] {
+    background-color: orange !important;
 }
-.eColor{
-    background-color: yellowgreen;
+
+.key[data-note='D#'][data-active="true"] {
+    background-color: yellow !important;
 }
-.fColor{
-    background-color: green;
+
+.key[data-note='E'][data-active="true"] {
+    background-color: yellowgreen !important;
 }
-.fShColor{
-    background-color: lightblue;
+
+.key[data-note='F'][data-active="true"] {
+    background-color: green !important;
 }
-.gColor{
-    background-color: blue;
+
+.key[data-note='F#'][data-active="true"] {
+    background-color: lightblue !important;
 }
-.gShColor{
-    background-color: darkblue
+
+.key[data-note='G'][data-active="true"] {
+    background-color: blue !important;
+}
+.key[data-note='G#'][data-active="true"] {
+    background-color: darkblue !important;
 }
 
 .sidenav {
