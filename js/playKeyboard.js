@@ -215,10 +215,12 @@ function playKeyboard(){
 	var iWhite = 0;
 	var notes = __audioSynth._notes; //C, C#, D....A#, B
 
-	for(var i=-2;i<=1;i++) {
+	for(var i=0;i<=0;i++) {
 		for(var n in notes) {
 			if(n[2]!='b') {
 				var thisKey = document.createElement('div');
+				thisKey.setAttribute("data-note", n);
+				thisKey.setAttribute("data-active", "false");
 				if(n.length>1) { //adding sharp sign makes 2 characters
 					thisKey.className = 'black key'; //2 classes
 					thisKey.style.width = '30px';
