@@ -1,13 +1,9 @@
-//API Documentation: (no key required)   https://api.uberchord.com/
-// $.ajax({
-//     url:"http://cors-anywhere.herokuapp.com/www.tofret.com/reverse-chord-finder.php?return-type=json&notes=A+F%23+Eb",
-//     method: "GET"
-// }).then(function(response){
-//     console.log(response);
-// })
 
+// activates the hamburger menu for external links in NAV bar.
+$(document).ready(function(){
+    $('.sidenav').sidenav();
+  });
 
-// click events with color class added.
 // TODO: add calls to API when ready
 $("#a").on("click", function(){
     $("#a").addClass("aColor");
@@ -45,4 +41,6 @@ $("#g").on("click", function(){
 $("#gSh").on("click", function(){
     $("#gSh").addClass("gShColor")
 })
+
+
 
