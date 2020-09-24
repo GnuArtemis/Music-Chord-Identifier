@@ -1,15 +1,14 @@
 //API Documentation: (no key required)   www.tofret.com/
 //These are here for placeholding purposes! These ONLY go in the api call, to make sure that the sharps are properly formatted. For all other purposes, the # notation is preferred. 
 var first_note = "A";
-var second_note = "C";
+var second_note = "E";
 var third_note = "F";
 // var fourth_note = "E"
 //var allNotesAPIFormat = [first_note, second_note, third_note];
 
 
 //This format is required for sorting through the results of the API call. 
-var allNotes = ["A","C","F"];
-
+var allNotes = ["A", "E", "F"];
 
 $.ajax({
     url: `https://cors-anywhere.herokuapp.com/www.tofret.com/reverse-chord-finder.php?return-type=json&notes=${first_note}+${second_note}+${third_note}`,
@@ -20,7 +19,7 @@ $.ajax({
 
     console.log(response);
 
-    if(!findExactFit(response)){
+    if (!findExactFit(response)) {
         findBestAnswer(response);
     }
 
@@ -29,8 +28,8 @@ $.ajax({
 //Sorts through the API result and console logs (an returns true) an exact match if one exists
 function findExactFit(response) {
 
-    let exactMatchLength = allNotes.length-1;
-    for(let i = 0; i < allNotes.length; i++) {
+    let exactMatchLength = allNotes.length - 1;
+    for (let i = 0; i < allNotes.length; i++) {
         exactMatchLength += allNotes[i].length;
     }
 
@@ -56,23 +55,57 @@ function findExactFit(response) {
 //This will only trigger if we have at least 3 keys pressed, and there is NO exact match 
 function findBestAnswer(response) {
 
-    if(!response.chords){
+    if (!response.chords) {
         console.log("No chords found for these notes :(")
         return;
     }
+
+    var likelihood0 = [];
+    var likelihood1 = [];
+    var likelihood2 = [];
+    var likelihood3 = [];
+    var likelihood4 = [];
+    var likelihood5 = [];
 
     for (const property in response.chords) {
         for (const key in response.chords[property]) {
             // console.log(`${property}: ${key}, ${response.chords[property][key]}`)
 
-           //If KEY is major, minor, it is 1st likelihood
-           //If KEY is Dominant seventh, it is 2nd likelihood
-           //If KEY is diminished, it is 3rd likelihood
-           //If KEY is augmented, Major Seventh, or Minor Seventh, it is 4th likelihood
-           //If KEY is Extended or Suspended, it is 5th likelihood
-           //If KEY is anything else, it is sixth likelihood
+            //If KEY is major, minor, it is 1st likelihood
+            if (key === "major" || key === "minor") {
+                likelihood0.push(`${property} ${key}`)
+            }
+            //If KEY is Dominant seventh, diminished or augmented triad it is 2nd likelihood
+            else if (key === "dominant7th" || key === "diminished" || key === "augmented") {
+                likelihood1.push(`${property} ${key}`);
+            }
+            //If KEY is diminished or half diminished, it is 3rd likelihood
+            else if (key === "diminished7" || key === "m7b5") {
+                likelihood2.push(`${property} ${key}`);
+            }
+            //If KEY is augmented, Major Seventh, or Minor Seventh, it is 4th likelihood
+            else if (key === "major7" || key === "minor7" || key === "augmented7") {
+                likelihood3.push(`${property} ${key}`);
+            }
+            //If KEY is Extended or Suspended, it is 5th likelihood
+            else if (key === "sus2" || key === "sus4") {
+                likelihood4.push(`${property} ${key}`);
+            }
+            //If KEY is anything else, it is sixth likelihood
+            else {
+                likelihood5.push(`${property} ${key}`);
+            }
         }
     }
+
+    console.log(likelihood0);
+    console.log(likelihood1);
+    console.log(likelihood2);
+    console.log(likelihood3);
+    console.log(likelihood4);
+    console.log(likelihood5);
+
+    return [likelihood0,likelihood1,likelihood2,likelihood3,likelihood4,likelihood5]
 }
 
 //TODO: function that handles case where only 1 note is chosen. Returns name of note chosen and the analysis of "unison"
@@ -87,9 +120,9 @@ $(document).ready(function () {
 
 
 // activates the hamburger menu for external links in NAV bar.
-$(document).ready(function(){
+$(document).ready(function () {
     $('.sidenav').sidenav();
-  });
+});
 
 
 // click events with color class added.
