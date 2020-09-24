@@ -1,14 +1,14 @@
 //API Documentation: (no key required)   www.tofret.com/
 //These are here for placeholding purposes! These ONLY go in the api call, to make sure that the sharps are properly formatted. For all other purposes, the # notation is preferred. 
 var first_note = "A";
-var second_note = "E";
+var second_note = "C";
 var third_note = "F";
 // var fourth_note = "E"
 //var allNotesAPIFormat = [first_note, second_note, third_note];
 
 
 //This format is required for sorting through the results of the API call. 
-var allNotes = ["A","E","F"];
+var allNotes = ["A","C","F"];
 
 
 $.ajax({
@@ -29,7 +29,7 @@ $.ajax({
 //Sorts through the API result and console logs (an returns true) an exact match if one exists
 function findExactFit(response) {
 
-    let exactMatchLength = allNotes-1;
+    let exactMatchLength = allNotes.length-1;
     for(let i = 0; i < allNotes.length; i++) {
         exactMatchLength += allNotes[i].length;
     }
@@ -85,6 +85,11 @@ $(document).ready(function () {
     $('.sidenav').sidenav();
 });
 
+
+// activates the hamburger menu for external links in NAV bar.
+$(document).ready(function(){
+    $('.sidenav').sidenav();
+  });
 
 
 // click events with color class added.
