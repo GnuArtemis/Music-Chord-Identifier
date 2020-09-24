@@ -71,9 +71,7 @@ function findExactFit(response) {
             }
         }
     }
-    return false;
 }
-
 //This will only trigger if we have at least 3 keys pressed, and there is NO exact match 
 function findBestAnswer(response) {
 
@@ -134,10 +132,16 @@ function findBestAnswer(response) {
 
 //TODO: function that handles case where only 2 notes are chosen. Returns the interval between the chords
 
+function refreshKeys() {
+    $(".key").each(function() {
+        $(this).attr("data-active", "false");
+    })
+}
 
 // activates the hamburger menu for external links in NAV bar.
 $(document).ready(function () {
     $('.sidenav').sidenav();
+    generateKeyboard(0,0,document.getElementById("keyboard"));
 });
 
 // click event to set key depress.
@@ -150,11 +154,13 @@ $("#keyboard").on("click", ".key", function (e) {
 // submit results to find chord
 $("#submit").on("click", function (e) {
     const pressedKeys = [];
+
     $(".key").each(function () {
         if ($(this).attr("data-active") === "true") pressedKeys.push($(this).attr("data-note"));
     })
     console.log(pressedKeys);
-    getChord(pressedKeys);
+    refreshKeys();
+    //getNotes(pressedKeys);
 })
 
 
