@@ -12,3 +12,5 @@ AS A music student
 I WANT a tool to help me learn to analyze chords
 GIVEN THAT I press notes on a keyboard
 THEN I recieve the name of that chord
+
+
