@@ -10,21 +10,24 @@ var third_note = "F";
 //This format is required for sorting through the results of the API call. 
 var allNotes = ["A","C","F"];
 
+function getChord(notes) {
 
-$.ajax({
-    url: `https://cors-anywhere.herokuapp.com/www.tofret.com/reverse-chord-finder.php?return-type=json&notes=${first_note}+${second_note}+${third_note}`,
-    method: "GET"
-}).then(function (response) {
+    $.ajax({
+        url: `https://cors-anywhere.herokuapp.com/www.tofret.com/reverse-chord-finder.php?return-type=json&notes=${notes[0]}+${notes[1]}+${notes[2]}`,
+        method: "GET"
+    }).then(function (response) {
 
-    response = JSON.parse(response);
+        response = JSON.parse(response);
 
-    console.log(response);
+        console.log(response);
 
-    if(!findExactFit(response)){
-        findBestAnswer(response);
-    }
+        if(!findExactFit(response)){
+            findBestAnswer(response);
+        }
 
-})
+    })
+}
+
 
 //Sorts through the API result and console logs (an returns true) an exact match if one exists
 function findExactFit(response) {
@@ -51,6 +54,7 @@ function findExactFit(response) {
             }
         }
     }
+    return false;
 }
 
 //This will only trigger if we have at least 3 keys pressed, and there is NO exact match 
@@ -85,22 +89,20 @@ $(document).ready(function () {
     $('.sidenav').sidenav();
 });
 
-
-// activates the hamburger menu for external links in NAV bar.
-$(document).ready(function(){
-    $('.sidenav').sidenav();
-  });
-
-
-// click events with color class added.
+// click event to set key depress.
 $("#keyboard").on("click", ".key", function (e) {
-    e.preventDefault();
-    let key = $(this);
-    console.log(key);
-    if (key.attr("data-active") === "false") {
-        key.attr("data-active", "true");
-    }
-    else key.attr("data-active", "false");
+    const keyPressed = $(this);
+    if(keyPressed.attr("data-active") === "false") fnPlayNote(keyPressed.attr("data-note"),keyPressed.attr("data-octave"));
+    keyPressed.attr("data-active", keyPressed.attr("data-active") === "false");
+})
+
+// submit results to find chord
+$("#submit").on("click", function(e) {
+    const pressedKeys = [];
+    $(".key").each(function() {
+        if($(this).attr("data-active") === "true") pressedKeys.push($(this).attr("data-note")); 
+    })
+    getNotes(pressedKeys);
 })
 
 
