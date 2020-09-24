@@ -29,8 +29,8 @@ function getChord(notes) {
 
         console.log(response);
 
-        if (!findExactFit(response, allNotes)) {
-            findBestAnswer(response, allNotes);
+        if (!findExactFit(response)) {
+            findBestAnswer(response);
         }
 
     })
@@ -38,7 +38,7 @@ function getChord(notes) {
 
 
 //Sorts through the API result and console logs (an returns true) an exact match if one exists
-function findExactFit(response, allNotes) {
+function findExactFit(response) {
 
     let exactMatchLength = allNotes.length - 1;
     for (let i = 0; i < allNotes.length; i++) {
@@ -68,7 +68,7 @@ function findExactFit(response, allNotes) {
 
 }
 //This will only trigger if we have at least 3 keys pressed, and there is NO exact match 
-function findBestAnswer(response, allNotes) {
+function findBestAnswer(response) {
 
     if (!response.chords) {
         console.log("No chords found for these notes :(")

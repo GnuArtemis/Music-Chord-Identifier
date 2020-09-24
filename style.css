@@ -96,3 +96,19 @@ margin: 0, auto;
 .key[data-note='G#'][data-active="true"] {
     background-color: darkblue !important;
 }
+
+.sidenav {
+    color: black;
+}
+
+.alternative-chords {
+    width: 70% !important
+
+
+
+}
+.notebutton {
+/* background-image: url("assets/note-1a.jpg"); */
+
+
+}
