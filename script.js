@@ -1,19 +1,34 @@
 //API Documentation: (no key required)   www.tofret.com/
 //These are here for placeholding purposes! These ONLY go in the api call, to make sure that the sharps are properly formatted. For all other purposes, the # notation is preferred. 
-var first_note = "A";
-var second_note = "E";
-var third_note = "F";
+// var first_note = "A";
+// var second_note = "E";
+// var third_note = "F";
 // var fourth_note = "E"
 //var allNotesAPIFormat = [first_note, second_note, third_note];
 
 
 //This format is required for sorting through the results of the API call. 
-var allNotes = ["A","C","F"];
+var allNotes;
 
 function getChord(notes) {
+    allNotes = notes;
+    var urlFormat = "";
+
+    for(var i = 0; i < notes.length; i++){
+        if(i>0){
+            urlFormat += "+"
+        }
+        if(notes[i].includes("#")){
+            var urlFormatNote = notes[i].slice(0, -1) + "%23"
+            urlFormat += urlFormatNote;
+        }else {
+            urlFormat += notes[i];
+        }
+    }
+
 
     $.ajax({
-        url: `https://cors-anywhere.herokuapp.com/www.tofret.com/reverse-chord-finder.php?return-type=json&notes=${notes[0]}+${notes[1]}+${notes[2]}`,
+        url: `https://cors-anywhere.herokuapp.com/www.tofret.com/reverse-chord-finder.php?return-type=json&notes=${urlFormat}}`,
         method: "GET"
     }).then(function (response) {
 
@@ -21,7 +36,7 @@ function getChord(notes) {
 
         console.log(response);
 
-        if(!findExactFit(response)){
+        if (!findExactFit(response)) {
             findBestAnswer(response);
         }
 
@@ -43,21 +58,16 @@ function findExactFit(response) {
             console.log(`${property}: ${key}, ${response.chords[property][key]}`)
 
             if (response.chords[property][key].length === (exactMatchLength)) {
-                if (response.chords[property][key].includes(allNotes[0])) {
-                    console.log("HIT!!!");
-                    //DESIRED ANSWER IN DESIRED FORMAT
-                    console.log(`${property} ${key}`);
-                    $(".chord-result").text(`${property} ${key}`)
-                
-                    return true;
-                }
+
+                console.log("HIT!!!");
+                //DESIRED ANSWER IN DESIRED FORMAT
+                console.log(`${property} ${key}`);
+                $(".chord-result").text(`${property} ${key}`)
+                console.log(response.chords[property][key])
+                return true;
+
                 // response.chords[property][key].includes(allNotes[0]) || response.chords[property][key].includes(noteEquivalencies[allNotes[0]])
 
-                if (response.chords[property][key].includes(first_note) && response.chords[property][key].includes(second_note) && response.chords[property][key].includes(third_note) && response.chords[property][key].length === 5) {
-                    console.log("HIT!!!");
-                    console.log(`${property} ${key}`);
-                    $(".chord-result").text(`${property} ${key}`)
-                }
             }
         }
     }
@@ -69,7 +79,7 @@ function findBestAnswer(response) {
 
     if (!response.chords) {
         console.log("No chords found for these notes :(")
-        return;
+        return null;
     }
 
     var likelihood0 = [];
@@ -117,7 +127,7 @@ function findBestAnswer(response) {
     console.log(likelihood4);
     console.log(likelihood5);
 
-    return [likelihood0,likelihood1,likelihood2,likelihood3,likelihood4,likelihood5]
+    return [likelihood0, likelihood1, likelihood2, likelihood3, likelihood4, likelihood5]
 }
 
 //TODO: function that handles case where only 1 note is chosen. Returns name of note chosen and the analysis of "unison"
@@ -133,18 +143,18 @@ $(document).ready(function () {
 // click event to set key depress.
 $("#keyboard").on("click", ".key", function (e) {
     const keyPressed = $(this);
-    if(keyPressed.attr("data-active") === "false") fnPlayNote(keyPressed.attr("data-note"),keyPressed.attr("data-octave"));
+    if (keyPressed.attr("data-active") === "false") fnPlayNote(keyPressed.attr("data-note"), keyPressed.attr("data-octave"));
     keyPressed.attr("data-active", keyPressed.attr("data-active") === "false");
 })
 
 // submit results to find chord
-$("#submit").on("click", function(e) {
+$("#submit").on("click", function (e) {
     const pressedKeys = [];
-    $(".key").each(function() {
-        if($(this).attr("data-active") === "true") pressedKeys.push($(this).attr("data-note")); 
+    $(".key").each(function () {
+        if ($(this).attr("data-active") === "true") pressedKeys.push($(this).attr("data-note"));
     })
     console.log(pressedKeys);
-    //getNotes(pressedKeys);
+    getChord(pressedKeys);
 })
 
 
