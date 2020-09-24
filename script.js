@@ -4,17 +4,17 @@
 function getChord(notes) {
     //The notes used for filtering and sorting for best fix
     var allNotes = notes;
-    
+
     //This format is required for making an API call 
     var urlFormat = "";
-    for(var i = 0; i < notes.length; i++){
-        if(i>0){
+    for (var i = 0; i < notes.length; i++) {
+        if (i > 0) {
             urlFormat += "+"
         }
-        if(notes[i].includes("#")){
+        if (notes[i].includes("#")) {
             var urlFormatNote = notes[i].slice(0, -1) + "%23"
             urlFormat += urlFormatNote;
-        }else {
+        } else {
             urlFormat += notes[i];
         }
     }
@@ -30,7 +30,8 @@ function getChord(notes) {
         console.log(response);
 
         if (!findExactFit(response, allNotes)) {
-            findBestAnswer(response, allNotes);
+            var possibleMatches = findBestAnswer(response, allNotes);
+            displayLikelyMatches(possibleMatches);
         }
 
     })
@@ -123,10 +124,31 @@ function findBestAnswer(response, allNotes) {
 
 //TODO: function that handles case where only 1 note is chosen. Returns name of note chosen and the analysis of "unison"
 
+
 //TODO: function that handles case where only 2 notes are chosen. Returns the interval between the chords
+function onlyTwoNotes () {
+    //If there are NO notes inbetween the two notes chosen, then display "minor second"
+    //If there is 1 note inbetween the two notes chosen, then display "major second"
+    //If there is 2 note inbetween the two notes chosen, then display "major second"
+    //If there is 3 note inbetween the two notes chosen, then display "major second"
+    //If there is 4 note inbetween the two notes chosen, then display "major second"
+    //If there is 5 note inbetween the two notes chosen, then display "major second"
+    //If there is 6 note inbetween the two notes chosen, then display "major second"
+
+    //var firstNote = somethign to do with user input
+    //var secondNote = something to do with user input
+
+    //subtract second note from first note. then get the absolute value of the result. var numNotesBetween
+
+    //if(numNotesBetween) === 1 THEN its a minor second
+
+
+
+}
+
 
 function refreshKeys() {
-    $(".key").each(function() {
+    $(".key").each(function () {
         $(this).attr("data-active", "false");
     })
 }
@@ -134,7 +156,7 @@ function refreshKeys() {
 // activates the hamburger menu for external links in NAV bar.
 $(document).ready(function () {
     $('.sidenav').sidenav();
-    generateKeyboard(0,0,document.getElementById("keyboard"));
+    generateKeyboard(0, 0, document.getElementById("keyboard"));
 });
 
 // click event to set key depress.
@@ -157,3 +179,50 @@ $("#submit").on("click", function (e) {
 })
 
 
+/*
+1.  If there is NO exact match, add 1st in the list of possible matches, and text that says that there is no exact match
+2.  secondary box conaining possible, less likely answers
+
+If there's more possibilities in the array, say "these results are equally likely: "
+If there's possiblities 1 likelihood down, say "these results are less likely"
+...
+If there's more possibilities 4 likelihoods or more down, say "these results are very unlikely, but still possible depending on context"
+
+*/
+
+function displayLikelyMatches(possibleMatches) {
+    console.log(possibleMatches);
+    var listeners = 0;
+    for (let i = 0; i < possibleMatches.length; i++) {
+        if (!possibleMatches[i].length) {
+            continue;
+        }
+        for (let j = 0; j < possibleMatches[i].length; j++) {
+            let currChord = possibleMatches[i][j];
+            if (!listeners) {
+                //RESULT TO BE DISPLAYED
+                console.log(currChord);
+                listeners = i;
+            } else {
+                if (i === listeners) {
+                    //EQUALLY LIKELY RESULTS, NOT DISPLAYED
+                    console.log("equally likely " + currChord)
+                } else {
+                    //LESS LIKELY, STILL POSSIBLE RESULTS. DEPENDENT ON TIER OF FIRST RESULT
+                    if ( (i - listeners) === 1) {
+                        console.log(`Still fairly likely ${currChord}`)
+                    } else if ((i - listeners) === 2 ) {
+                        console.log(`This is fairly unlikely: ${currChord}`)
+                    } else if ((i - listeners) === 3) {
+                        console.log(`This is quite unlikely ${currChord}`);
+                    } else {
+                        console.log(`This is very unlikely, but still technically possible ${currChord}`);
+                    }
+                }
+            }
+
+        }
+
+    }
+
+}
