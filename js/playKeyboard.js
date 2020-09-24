@@ -1,3 +1,10 @@
+var __audioSynth = new AudioSynth();
+	__audioSynth.setVolume(0.5);
+
+	let selectSound = {
+		value: "0" //piano
+	};
+
 function playKeyboard(){
 
 	let pressColor = '#1BC0EA'; //color when key is pressed
@@ -221,6 +228,7 @@ function playKeyboard(){
 				var thisKey = document.createElement('div');
 				thisKey.setAttribute("data-note", n);
 				thisKey.setAttribute("data-active", "false");
+				thisKey.setAttribute("data-octave", i+__octave);
 				if(n.length>1) { //adding sharp sign makes 2 characters
 					thisKey.className = 'black key'; //2 classes
 					thisKey.style.width = '30px';
@@ -243,7 +251,7 @@ function playKeyboard(){
 					'<span name="OCTAVE_LABEL" value="' + i + '">' + (__octave + parseInt(i)) + '</span>' + (n.substr(1,1)?n.substr(1,1):'');
 				thisKey.appendChild(label);
 				thisKey.setAttribute('ID', 'KEY_' + n + ',' + i);
-				thisKey.addEventListener(evtListener[0], (function(_temp) { return function() { fnPlayKeyboard({keyCode:_temp}); } })(reverseLookup[n + ',' + i]));
+				//thisKey.addEventListener(evtListener[0], (function(_temp) { return function() { fnPlayKeyboard({keyCode:_temp}); } })(reverseLookup[n + ',' + i]));
 				visualKeyboard[n + ',' + i] = thisKey;
 				visualKeyboard.appendChild(thisKey);
 				
@@ -270,12 +278,12 @@ function playKeyboard(){
 		keysPressed.push(e.keyCode);
 
 		if(keyboard[e.keyCode]) {
-			if(visualKeyboard[keyboard[e.keyCode]]) {
-				visualKeyboard[keyboard[e.keyCode]].style.backgroundColor = pressColor;
-				//visualKeyboard[keyboard[e.keyCode]].classList.add('playing'); //adding class only affects keypress and not mouse click
-				visualKeyboard[keyboard[e.keyCode]].style.marginTop = '5px';
-				visualKeyboard[keyboard[e.keyCode]].style.boxShadow = 'none';
-			}
+			// if(visualKeyboard[keyboard[e.keyCode]]) {
+			// 	visualKeyboard[keyboard[e.keyCode]].style.backgroundColor = pressColor;
+			// 	//visualKeyboard[keyboard[e.keyCode]].classList.add('playing'); //adding class only affects keypress and not mouse click
+			// 	visualKeyboard[keyboard[e.keyCode]].style.marginTop = '5px';
+			// 	visualKeyboard[keyboard[e.keyCode]].style.boxShadow = 'none';
+			// }
 			var arrPlayNote = keyboard[e.keyCode].split(',');
 			var note = arrPlayNote[0];
 			var octaveModifier = arrPlayNote[1]|0;
@@ -338,8 +346,22 @@ function playKeyboard(){
 		}
 
 	}
-	window.addEventListener('keydown', fnPlayKeyboard);
-	window.addEventListener('keyup', fnRemoveKeyBinding);
+	//window.addEventListener('keydown', fnPlayKeyboard);
+	//window.addEventListener('keyup', fnRemoveKeyBinding);
 }
 
 playKeyboard();
+
+// Generates audio for pressed note and returns that to be played
+var fnPlayNote = function(note, octave) {
+
+	src = __audioSynth.generate(selectSound.value, note, octave, 2);
+	container = new Audio(src);
+	container.addEventListener('ended', function() { container = null; });
+	container.addEventListener('loadeddata', function(e) { e.target.play(); });
+	container.autoplay = false;
+	container.setAttribute('type', 'audio/wav');
+	container.load();
+	return container;
+
+};
