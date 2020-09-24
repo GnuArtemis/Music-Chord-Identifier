@@ -39,11 +39,14 @@ function findExactFit(response) {
                     }
                     console.log("HIT!!!");
                     console.log(`${property} ${key}`);
+                    $(".chord-result").text(`${property} ${key}`)
+                }
                 }
 
                 if (response.chords[property][key].includes(first_note) && response.chords[property][key].includes(second_note) && response.chords[property][key].includes(third_note) && response.chords[property][key].length === 5) {
                     console.log("HIT!!!");
                     console.log(`${property} ${key}`);
+                    $(".chord-result").text(`${property} ${key}`)
                 }
             }
         }
