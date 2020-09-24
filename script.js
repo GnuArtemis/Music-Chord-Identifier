@@ -61,8 +61,7 @@ function findExactFit(response) {
             }
         }
     }
-    return false;
-}
+   
 
 //This will only trigger if we have at least 3 keys pressed, and there is NO exact match 
 function findBestAnswer(response) {
