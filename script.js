@@ -97,6 +97,7 @@ function refreshKeys() {
 // activates the hamburger menu for external links in NAV bar.
 $(document).ready(function () {
     $('.sidenav').sidenav();
+    generateKeyboard(0,0,document.getElementById("keyboard"));
 });
 
 // click event to set key depress.
