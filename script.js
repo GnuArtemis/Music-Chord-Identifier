@@ -102,7 +102,8 @@ $("#submit").on("click", function(e) {
     $(".key").each(function() {
         if($(this).attr("data-active") === "true") pressedKeys.push($(this).attr("data-note")); 
     })
-    getNotes(pressedKeys);
+    console.log(pressedKeys);
+    //getNotes(pressedKeys);
 })
 
 
