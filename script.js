@@ -1,19 +1,12 @@
 //API Documentation: (no key required)   www.tofret.com/
-//These are here for placeholding purposes! These ONLY go in the api call, to make sure that the sharps are properly formatted. For all other purposes, the # notation is preferred. 
-// var first_note = "A";
-// var second_note = "E";
-// var third_note = "F";
-// var fourth_note = "E"
-//var allNotesAPIFormat = [first_note, second_note, third_note];
 
-
-//This format is required for sorting through the results of the API call. 
-var allNotes;
 
 function getChord(notes) {
-    allNotes = notes;
+    //The notes used for filtering and sorting for best fix
+    var allNotes = notes;
+    
+    //This format is required for making an API call 
     var urlFormat = "";
-
     for(var i = 0; i < notes.length; i++){
         if(i>0){
             urlFormat += "+"
@@ -160,7 +153,7 @@ $("#submit").on("click", function (e) {
     })
     console.log(pressedKeys);
     refreshKeys();
-    //getNotes(pressedKeys);
+    getChord(pressedKeys);
 })
 
 
