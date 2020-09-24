@@ -87,7 +87,3 @@ margin: 0, auto;
 .key[data-note='G#'][data-active="true"] {
     background-color: darkblue !important;
 }
-
-.sidenav {
-    color: black;
-}
