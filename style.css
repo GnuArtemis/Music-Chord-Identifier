@@ -19,6 +19,15 @@ margin: 0, auto;
     z-index: 1;
 }
 
+.center {
+    margin: 0 auto;
+}
+
+.label {
+    position: absolute;
+    bottom: 20px;
+}
+
 .key {
     position: absolute;
     font-family: Helvetica;
