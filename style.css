@@ -1,5 +1,10 @@
+.chord-result {
+margin: 0, auto;
+}
+
+
 #keyboard {
-    /* display: flex; */
+    height: 220px;
 }
 
 .white {

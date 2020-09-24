@@ -1,80 +1,116 @@
 //API Documentation: (no key required)   www.tofret.com/
-var first_note = "B";
-var second_note = "G";
-var third_note = "E";
-var numNotes = 3;
-var allNotes = [first_note,second_note,third_note];
-
-"https://cors-anywhere.herokuapp.com/www.tofret.com/reverse-chord-finder.php?return-type=json&notes=" + "A+B+C"
-
-$.ajax({
-    url: `https://cors-anywhere.herokuapp.com/www.tofret.com/reverse-chord-finder.php?return-type=json&notes=${first_note}+${second_note}+${third_note}`,
-    method: "GET"
-}).then(function (response) {
-    // console.log("hello world")
-    response = JSON.parse(response);
-
-    console.log(response);
-
-    findExactFit(response);
+//These are here for placeholding purposes! These ONLY go in the api call, to make sure that the sharps are properly formatted. For all other purposes, the # notation is preferred. 
+var first_note = "A";
+var second_note = "C";
+var third_note = "F";
+// var fourth_note = "E"
+//var allNotesAPIFormat = [first_note, second_note, third_note];
 
 
+//This format is required for sorting through the results of the API call. 
+var allNotes = ["A","C","F"];
 
-    // console.log
-})
+function getChord(notes) {
 
+    $.ajax({
+        url: `https://cors-anywhere.herokuapp.com/www.tofret.com/reverse-chord-finder.php?return-type=json&notes=${notes[0]}+${notes[1]}+${notes[2]}`,
+        method: "GET"
+    }).then(function (response) {
+
+        response = JSON.parse(response);
+
+        console.log(response);
+
+        if(!findExactFit(response)){
+            findBestAnswer(response);
+        }
+
+    })
+}
+
+
+//Sorts through the API result and console logs (an returns true) an exact match if one exists
 function findExactFit(response) {
-    // var newList = Object.entries(response.chords);
-    // console.log(newList);
+
+    let exactMatchLength = allNotes.length-1;
+    for(let i = 0; i < allNotes.length; i++) {
+        exactMatchLength += allNotes[i].length;
+    }
 
 
     for (const property in response.chords) {
         for (const key in response.chords[property]) {
             console.log(`${property}: ${key}, ${response.chords[property][key]}`)
 
-            if (response.chords[property][key].length === (numNotes*2-1)) {
-                for (let i = 0; i < numNotes; i++) {
-                    if (!response.chords[property][key].includes(allNotes[i])) {
-                        break;
-                    }
+            if (response.chords[property][key].length === (exactMatchLength)) {
+                if (response.chords[property][key].includes(allNotes[0])) {
                     console.log("HIT!!!");
+                    //DESIRED ANSWER IN DESIRED FORMAT
                     console.log(`${property} ${key}`);
+                    $(".chord-result").text(`${property} ${key}`)
                 }
+                    return true;
+                }
+                // response.chords[property][key].includes(allNotes[0]) || response.chords[property][key].includes(noteEquivalencies[allNotes[0]])
 
                 if (response.chords[property][key].includes(first_note) && response.chords[property][key].includes(second_note) && response.chords[property][key].includes(third_note) && response.chords[property][key].length === 5) {
                     console.log("HIT!!!");
                     console.log(`${property} ${key}`);
+                    $(".chord-result").text(`${property} ${key}`)
                 }
             }
         }
     }
-
+    return false;
 }
 
-// 
-//API Documentation: (no key required)   https://api.uberchord.com/
-// $.ajax({
-//     url:"http://cors-anywhere.herokuapp.com/www.tofret.com/reverse-chord-finder.php?return-type=json&notes=A+F%23+Eb",
-//     method: "GET"
-// }).then(function(response){
-//     console.log(response);
-// })
+//This will only trigger if we have at least 3 keys pressed, and there is NO exact match 
+function findBestAnswer(response) {
+
+    if(!response.chords){
+        console.log("No chords found for these notes :(")
+        return;
+    }
+
+    for (const property in response.chords) {
+        for (const key in response.chords[property]) {
+            // console.log(`${property}: ${key}, ${response.chords[property][key]}`)
+
+           //If KEY is major, minor, it is 1st likelihood
+           //If KEY is Dominant seventh, it is 2nd likelihood
+           //If KEY is diminished, it is 3rd likelihood
+           //If KEY is augmented, Major Seventh, or Minor Seventh, it is 4th likelihood
+           //If KEY is Extended or Suspended, it is 5th likelihood
+           //If KEY is anything else, it is sixth likelihood
+        }
+    }
+}
+
+//TODO: function that handles case where only 1 note is chosen. Returns name of note chosen and the analysis of "unison"
+
+//TODO: function that handles case where only 2 notes are chosen. Returns the interval between the chords
+
 
 // activates the hamburger menu for external links in NAV bar.
-$(document).ready(function(){
+$(document).ready(function () {
     $('.sidenav').sidenav();
-  });
+});
 
-
-// click events with color class added.
+// click event to set key depress.
 $("#keyboard").on("click", ".key", function (e) {
-    e.preventDefault();
-    let key = $(this);
-    console.log(key);
-    if (key.attr("data-active") === "false") {
-        key.attr("data-active", "true");
-    }
-    else key.attr("data-active", "false");
+    const keyPressed = $(this);
+    if(keyPressed.attr("data-active") === "false") fnPlayNote(keyPressed.attr("data-note"),keyPressed.attr("data-octave"));
+    keyPressed.attr("data-active", keyPressed.attr("data-active") === "false");
+})
+
+// submit results to find chord
+$("#submit").on("click", function(e) {
+    const pressedKeys = [];
+    $(".key").each(function() {
+        if($(this).attr("data-active") === "true") pressedKeys.push($(this).attr("data-note")); 
+    })
+    console.log(pressedKeys);
+    //getNotes(pressedKeys);
 })
 
 
