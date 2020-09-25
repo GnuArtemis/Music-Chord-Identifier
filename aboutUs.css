@@ -1,3 +1,5 @@
 body {
-    background-image: "assets\musical-notes-background-music-notation-sheet-sound-melody-and-note-symbols-vector-illustration-eps-vector_csp64186188.jpg"
+    background-image: url("assets/about_us_background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
