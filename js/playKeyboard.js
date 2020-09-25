@@ -386,6 +386,7 @@ const generateKeyboard = (start, end, container) => {
 				thisKey.setAttribute("data-note", n);
 				thisKey.setAttribute("data-active", "false");
 				thisKey.setAttribute("data-octave", i+__octave);
+				thisKey.setAttribute("data-index", iKeys);
 				if(n.length>1) { //adding sharp sign makes 2 characters
 					thisKey.className = 'black key'; //2 classes
 					thisKey.style.width = '30px';
