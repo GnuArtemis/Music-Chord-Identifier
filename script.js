@@ -34,12 +34,14 @@ function getChord(notes) {
             displayLikelyMatches(possibleMatches);
         }
 
+    }).always(function () {
+        refreshKeys();
     })
 }
 
 
 //Sorts through the API result and console logs (an returns true) an exact match if one exists
-function findExactFit(response) {
+function findExactFit(response, allNotes) {
 
     let exactMatchLength = allNotes.length - 1;
     for (let i = 0; i < allNotes.length; i++) {
@@ -153,12 +155,22 @@ function refreshKeys() {
     $(".key").each(function () {
         $(this).attr("data-active", "false");
     })
+    document.getElementById("submit").disabled = true;
+}
+
+function setButtonState() {
+    let anySelected = false;
+    $(".key").each(function () {
+        anySelected |= $(this).attr("data-active") === "true";
+    })
+    document.getElementById("submit").disabled = !anySelected;
 }
 
 // activates the hamburger menu for external links in NAV bar.
 $(document).ready(function () {
     $('.sidenav').sidenav();
     generateKeyboard(0, 0, document.getElementById("keyboard"));
+    setButtonState();
 });
 
 // click event to set key depress.
@@ -166,6 +178,7 @@ $("#keyboard").on("click", ".key", function (e) {
     const keyPressed = $(this);
     if (keyPressed.attr("data-active") === "false") fnPlayNote(keyPressed.attr("data-note"), keyPressed.attr("data-octave"));
     keyPressed.attr("data-active", keyPressed.attr("data-active") === "false");
+    setButtonState();
 })
 
 // submit results to find chord
@@ -176,7 +189,7 @@ $("#submit").on("click", function (e) {
         if ($(this).attr("data-active") === "true") pressedKeys.push($(this).attr("data-note"));
     })
     console.log(pressedKeys);
-    refreshKeys();
+    //refreshKeys();
     getChord(pressedKeys);
 })
 
