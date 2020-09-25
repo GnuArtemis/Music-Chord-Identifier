@@ -1,10 +1,10 @@
 //API Documentation: (no key required)   www.tofret.com/
 
 
-function getChord(notes) {
+function getChord(notes,intervals) {
     //The notes used for filtering and sorting for best fix
     var allNotes = notes;
-
+    if (allNotes.length === 2) onlyTwoNotes (notes,intervals);
     //This format is required for making an API call 
     var urlFormat = "";
     for (var i = 0; i < notes.length; i++) {
@@ -39,7 +39,7 @@ function getChord(notes) {
 
 
 //Sorts through the API result and console logs (an returns true) an exact match if one exists
-function findExactFit(response) {
+function findExactFit(response,allNotes) {
 
     let exactMatchLength = allNotes.length - 1;
     for (let i = 0; i < allNotes.length; i++) {
@@ -49,7 +49,7 @@ function findExactFit(response) {
 
     for (const property in response.chords) {
         for (const key in response.chords[property]) {
-            console.log(`${property}: ${key}, ${response.chords[property][key]}`)
+          //  console.log(`${property}: ${key}, ${response.chords[property][key]}`)
 
             if (response.chords[property][key].length === (exactMatchLength)) {
 
@@ -123,28 +123,54 @@ function findBestAnswer(response) {
 }
 
 //TODO: function that handles case where only 1 note is chosen. Returns name of note chosen and the analysis of "unison"
-
+//thisKey.setAttribute("data-index", iKeys);
 
 //TODO: function that handles case where only 2 notes are chosen. Returns the interval between the chords
-function onlyTwoNotes () {
-    //If there are NO notes inbetween the two notes chosen, then display "minor second"
-    //If there is 1 note inbetween the two notes chosen, then display "major second"
-    //If there is 2 note inbetween the two notes chosen, then display "major second"
-    //If there is 3 note inbetween the two notes chosen, then display "major second"
-    //If there is 4 note inbetween the two notes chosen, then display "major second"
-    //If there is 5 note inbetween the two notes chosen, then display "major second"
-    //If there is 6 note inbetween the two notes chosen, then display "major second"
+function onlyTwoNotes (notes, intervals) {
+    var distance = Math.abs (intervals[0] - intervals[1])
+    if (distance == 1){
 
-    //var firstNote = somethign to do with user input
-    //var secondNote = something to do with user input
+console.log ("this is a minor second")
+$("#answer-box").text("Minor 2nd")
 
-    //subtract second note from first note. then get the absolute value of the result. var numNotesBetween
-
-    //if(numNotesBetween) === 1 THEN its a minor second
-
-
+    }else if (distance == 2){
+        $("#answer-box").text("Major 2nd")
+}
+    else if (distance == 3){
+    $("#answer-box").text("Minor 3rd")
+}
+else if (distance == 4){
+    $("#answer-box").text("Major 3rd")
+}
+else if (distance == 5){
+    $("#answer-box").text("Perfect 4th")
+}
+else if (distance == 6){
+    $("#answer-box").text("Tritone")
+}   
+else if (distance == 7){
+    $("#answer-box").text("Perfect 5th")
+}      
+else if (distance == 8){
+    $("#answer-box").text("Minor 6th")
+}       
+else if (distance == 9){
+    $("#answer-box").text("Major 6th")
+}   
+else if (distance == 10){
+    $("#answer-box").text("Minor 7th")
+}   
+else if (distance == 11){
+    $("#answer-box").text("Major 7th")
+}   
+              
+       else {
+    // console.log ("Please try again")
+    }    
 
 }
+
+
 
 
 function refreshKeys() {
@@ -169,15 +195,20 @@ $("#keyboard").on("click", ".key", function (e) {
 // submit results to find chord
 $("#submit").on("click", function (e) {
     const pressedKeys = [];
+    intervals = [];
 
     $(".key").each(function () {
-        if ($(this).attr("data-active") === "true") pressedKeys.push($(this).attr("data-note"));
+        if ($(this).attr("data-active") === "true") {
+        intervals.push($(this).attr("data-index") )
+        pressedKeys.push($(this).attr("data-note"));
+        }
+
     })
     console.log(pressedKeys);
     refreshKeys();
-    getChord(pressedKeys);
+    getChord(pressedKeys,intervals);
 })
-
+var intervals;
 
 /*
 1.  If there is NO exact match, add 1st in the list of possible matches, and text that says that there is no exact match
