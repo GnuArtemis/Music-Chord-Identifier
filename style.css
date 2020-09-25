@@ -1,17 +1,10 @@
-
-body {
-   
-    background-image: url("https://cdn.xl.thumbs.canstockphoto.com/musical-notes-background-music-notation-sheet-sound-melody-and-note-symbols-vector-illustration-eps-vector_csp64186188.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    
-
+.chord-result {
+margin: 0, auto;
 }
 
 
-
 #keyboard {
-    /* display: flex; */
+    height: 220px;
 }
 
 .white {
@@ -24,6 +17,15 @@ body {
     /* background-color: black; */
     color: white;
     z-index: 1;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.label {
+    position: absolute;
+    bottom: 20px;
 }
 
 .key {
@@ -99,3 +101,14 @@ body {
     color: black;
 }
 
+.alternative-chords {
+    width: 70% !important
+
+
+
+}
+.notebutton {
+/* background-image: url("assets/note-1a.jpg"); */
+
+
+}
