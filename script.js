@@ -72,22 +72,6 @@ function getChord(notes,intervals) {
     })
 }
 
-$.ajax({
-    url: `https://cors-anywhere.herokuapp.com/www.tofret.com/reverse-chord-finder.php?return-type=json&notes=${first_note}`,
-    method: "GET"
-}).then(function (response) {
-
-    response = JSON.parse(response);
-
-    console.log(response);
-
-    if(!findExactFit(response)){
-        findBestAnswer(response);
-    }
-
-})
-
-
 //Sorts through the API result and console logs (an returns true) an exact match if one exists
 function findExactFit(response, allNotes) {
 
