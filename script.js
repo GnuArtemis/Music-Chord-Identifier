@@ -1,13 +1,6 @@
-//API Documentation: (no key required)   www.tofret.com/
-//These are here for placeholding purposes! These ONLY go in the api call, to make sure that the sharps are properly formatted. For all other purposes, the # notation is preferred. 
-var first_note = "A";
-// var second_note = "C";
-// var third_note = "F";
-// var fourth_note = "E"
-//var allNotesAPIFormat = [first_note, second_note, third_note];
-// 
-
 var abbrev = {
+    "source": "https://en.wikipedia.org/wiki/List_of_chords",
+   
     "major" : ["Major", "In music theory, a major chord is a chord that has a root, major third, and perfect fifth. When a chord has these three notes alone, it is called a major triad."],
     "9sus4" : ["9 Suspended 4", "A jazz sus chord or dominant 9sus4 chord is a seventh chord on the fifth scale degree of the key with a suspended fourth and an added ninth. "],
     "sus2" : ["Suspended 2", "A suspended chord is a musical chord in which the third is omitted, replaced usually with either a perfect fourth or a major second although the fourth is far more common."],
@@ -31,19 +24,9 @@ var abbrev = {
     "diminished7" : ["Diminished 7th", "The diminished seventh chord is a seventh chord composed of a root note, together with a minor third, a diminished fifth, and a diminished seventh above the root."],
     "m7b5" : ["Minor 7 flat 5", "Half-diminished chords are also known as minor seven flat five chords (m7b5) because they are built as a minor chord with a flat five (b5). Half-diminished chords are four-note shapes that contain the interval pattern 1 b3 b5 b7."],
 
-
-
-
-    
-
-
-
-
-
-
 }
 
-var source = "https://en.wikipedia.org/wiki/List_of_chords"
+
 
 
 //This format is required for sorting through the results of the API call. 
@@ -51,10 +34,10 @@ var allNotes = ["A"];
 
 
 
-function getChord(notes) {
+function getChord(notes,intervals) {
     //The notes used for filtering and sorting for best fix
     var allNotes = notes;
-
+    if (allNotes.length === 2) onlyTwoNotes (notes,intervals);
     //This format is required for making an API call 
     var urlFormat = "";
     for (var i = 0; i < notes.length; i++) {
@@ -116,7 +99,7 @@ function findExactFit(response, allNotes) {
 
     for (const property in response.chords) {
         for (const key in response.chords[property]) {
-            console.log(`${property}: ${key}, ${response.chords[property][key]}`)
+          //  console.log(`${property}: ${key}, ${response.chords[property][key]}`)
 
             if (response.chords[property][key].length === (exactMatchLength)) {
 
@@ -192,28 +175,54 @@ function findBestAnswer(response) {
 }
 
 //TODO: function that handles case where only 1 note is chosen. Returns name of note chosen and the analysis of "unison"
-
+//thisKey.setAttribute("data-index", iKeys);
 
 //TODO: function that handles case where only 2 notes are chosen. Returns the interval between the chords
-function onlyTwoNotes () {
-    //If there are NO notes inbetween the two notes chosen, then display "minor second"
-    //If there is 1 note inbetween the two notes chosen, then display "major second"
-    //If there is 2 note inbetween the two notes chosen, then display "major second"
-    //If there is 3 note inbetween the two notes chosen, then display "major second"
-    //If there is 4 note inbetween the two notes chosen, then display "major second"
-    //If there is 5 note inbetween the two notes chosen, then display "major second"
-    //If there is 6 note inbetween the two notes chosen, then display "major second"
+function onlyTwoNotes (notes, intervals) {
+    var distance = Math.abs (intervals[0] - intervals[1])
+    if (distance == 1){
 
-    //var firstNote = somethign to do with user input
-    //var secondNote = something to do with user input
+console.log ("this is a minor second")
+$("#answer-box").text("Minor 2nd")
 
-    //subtract second note from first note. then get the absolute value of the result. var numNotesBetween
-
-    //if(numNotesBetween) === 1 THEN its a minor second
-
-
+    }else if (distance == 2){
+        $("#answer-box").text("Major 2nd")
+}
+    else if (distance == 3){
+    $("#answer-box").text("Minor 3rd")
+}
+else if (distance == 4){
+    $("#answer-box").text("Major 3rd")
+}
+else if (distance == 5){
+    $("#answer-box").text("Perfect 4th")
+}
+else if (distance == 6){
+    $("#answer-box").text("Tritone")
+}   
+else if (distance == 7){
+    $("#answer-box").text("Perfect 5th")
+}      
+else if (distance == 8){
+    $("#answer-box").text("Minor 6th")
+}       
+else if (distance == 9){
+    $("#answer-box").text("Major 6th")
+}   
+else if (distance == 10){
+    $("#answer-box").text("Minor 7th")
+}   
+else if (distance == 11){
+    $("#answer-box").text("Major 7th")
+}   
+              
+       else {
+    // console.log ("Please try again")
+    }    
 
 }
+
+
 
 
 function refreshKeys() {
@@ -249,21 +258,20 @@ $("#keyboard").on("click", ".key", function (e) {
 // submit results to find chord
 $("#submit").on("click", function (e) {
     const pressedKeys = [];
+    intervals = [];
 
     $(".key").each(function () {
-        if ($(this).attr("data-active") === "true") pressedKeys.push($(this).attr("data-note"));
+        if ($(this).attr("data-active") === "true") {
+        intervals.push($(this).attr("data-index") )
+        pressedKeys.push($(this).attr("data-note"));
+        }
+
     })
     console.log(pressedKeys);
-    //refreshKeys();
-    getChord(pressedKeys);
+    refreshKeys();
+    getChord(pressedKeys,intervals);
 })
-
-// 1.  If there is NO exact match, add 1st in the list of possible matches, and text that says that there is no exact match
-// 2.  secondary box conaining possible, less likely answers
-// If there's more possibilities in the array, say "these results are equally likely: "
-// If there's possiblities 1 likelihood down, say "these results are less likely"
-// ...
-// If there's more possibilities 4 likelihoods or more down, say "these results are very unlikely, but still possible depending on context"
+var intervals;
 
 /*
 1.  If there is NO exact match, add 1st in the list of possible matches, and text that says that there is no exact match
