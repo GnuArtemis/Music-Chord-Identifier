@@ -51,7 +51,7 @@ function getChord(notes,intervals) {
             urlFormat += notes[i];
         }
     }
-
+    setPageLoading(true);
 
     $.ajax({
         url: `https://cors-anywhere.herokuapp.com/www.tofret.com/reverse-chord-finder.php?return-type=json&notes=${urlFormat}}`,
@@ -69,6 +69,7 @@ function getChord(notes,intervals) {
 
     }).always(function () {
         refreshKeys();
+        setPageLoading(false);
     })
 }
 
@@ -91,6 +92,9 @@ function findExactFit(response, allNotes) {
                 //DESIRED ANSWER IN DESIRED FORMAT
                 console.log(`${property} ${key}`);
                 $(".chord-result").text(`${property} ${key}`)
+                displayChordImage(property, key);
+                displayChordSound(property, key);
+                scales_chords_api_onload();
                 console.log(response.chords[property][key])
                 return true;
 
@@ -99,7 +103,7 @@ function findExactFit(response, allNotes) {
             }
         }
     }
-
+    return false;
 
 }
 //This will only trigger if we have at least 3 keys pressed, and there is NO exact match 
@@ -206,7 +210,60 @@ else if (distance == 11){
 
 }
 
+function setPageLoading(isLoading) {
+    if(isLoading) {
+        $(".preloader-wrapper").show();
+        $(".submit-button-area").hide();
+        $("#chord-image").hide();
+        $("#chord-sound").hide();
+    }
+    else {
+        $(".preloader-wrapper").hide();
+        $(".submit-button-area").show();
+        $("#chord-image").show();
+        $("#chord-sound").show();
+    }
+}
 
+function displayChordImage(chord, attribute) {
+    attribute = formatAttr(attribute);
+    $("#chord-image").html(`<ins class=\"scales_chords_api\" chord=\"${chord}${attribute}\" instrument=\"piano\" output=\"image\"></ins>`);
+}
+
+function displayChordSound(chord, attribute) {
+    attribute = formatAttr(attribute);
+    $("#chord-sound").html(`<ins class=\"scales_chords_api\" chord=\"${chord}${attribute}\" instrument=\"piano\" output=\"sound\"></ins>`);
+}
+
+
+
+function formatAttr(attribute) {
+    let table = {
+        'major': 'maj',
+        'major6': 'maj6',
+        'major7': 'maj7',
+        'major9': 'maj9',
+        'major11': 'maj11',
+        'minor': 'm',
+        'minor6': 'm6',
+        'minor7': 'm7',
+        'minor9': 'm9',
+        'sus2': 'sus2',
+        'sus4': 'sus4',
+        '7sus4': '7sus4',
+        '9sus4': '9sus4',
+        'add9': 'add9',
+        'madd9': 'madd9',
+        'augmented': 'aug',
+        'augmented7': 'aug7',
+        'diminished': 'dim',
+        'diminished7': 'dim7',
+        'dominant7th': '7',
+        'dominant9th': '9',
+        'm7b5': 'm7b5'
+    }
+    return table[attribute];
+}
 
 
 function refreshKeys() {
@@ -227,7 +284,8 @@ function setButtonState() {
 // activates the hamburger menu for external links in NAV bar.
 $(document).ready(function () {
     $('.sidenav').sidenav();
-    generateKeyboard(0, 0, document.getElementById("keyboard"));
+    generateKeyboard(0, 1, document.getElementById("keyboard"));
+    $(".preloader-wrapper").hide();
     setButtonState();
 });
 
@@ -245,7 +303,7 @@ $("#submit").on("click", function (e) {
     intervals = [];
 
     $(".key").each(function () {
-        if ($(this).attr("data-active") === "true") {
+        if ($(this).attr("data-active") === "true" && pressedKeys.indexOf($(this).attr("data-note")) === -1) {
         intervals.push($(this).attr("data-index") )
         pressedKeys.push($(this).attr("data-note"));
         }
