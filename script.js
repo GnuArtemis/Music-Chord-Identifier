@@ -59,6 +59,9 @@ function findExactFit(response, allNotes) {
                 //DESIRED ANSWER IN DESIRED FORMAT
                 console.log(`${property} ${key}`);
                 $(".chord-result").text(`${property} ${key}`)
+                displayChordImage(property, key);
+                displayChordSound(property, key);
+                scales_chords_api_onload();
                 console.log(response.chords[property][key])
                 return true;
 
@@ -67,7 +70,7 @@ function findExactFit(response, allNotes) {
             }
         }
     }
-
+    return false;
 
 }
 //This will only trigger if we have at least 3 keys pressed, and there is NO exact match 
@@ -148,6 +151,44 @@ function onlyTwoNotes () {
 
 
 
+}
+
+function displayChordImage(chord, attribute) {
+    attribute = formatAttr(attribute);
+    $("#chord-image").html(`<ins class=\"scales_chords_api\" chord=\"${chord}${attribute}\" instrument=\"piano\" output=\"image\"></ins>`);
+}
+
+function displayChordSound(chord, attribute) {
+    attribute = formatAttr(attribute);
+    $("#chord-sound").html(`<ins class=\"scales_chords_api\" chord=\"${chord}${attribute}\" instrument=\"piano\" output=\"sound\"></ins>`);
+}
+
+function formatAttr(attribute) {
+    let table = {
+        'major': 'M',
+        'major6': 'M6',
+        'major7': 'M7',
+        'major9': 'M9',
+        'major11': 'M11',
+        'minor': 'm',
+        'minor6': 'm6',
+        'minor7': 'm7',
+        'minor9': 'm9',
+        'sus2': 'sus2',
+        'sus4': 'sus4',
+        '7sus4': '7sus4',
+        '9sus4': '9sus4',
+        'add9': 'add9',
+        'madd9': 'madd9',
+        'augmented': 'aug',
+        'augmented7': 'aug7',
+        'diminished': 'dim',
+        'diminished7': 'dim7',
+        'dominant7th': '7',
+        'dominant9th': '9',
+        'm7b5': 'm7b5'
+    }
+    return table[attribute];
 }
 
 
