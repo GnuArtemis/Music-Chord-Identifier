@@ -65,6 +65,7 @@ function getChord(notes,intervals) {
         if (!findExactFit(response, allNotes)) {
             var possibleMatches = findBestAnswer(response, allNotes);
             displayLikelyMatches(possibleMatches);
+            
         }
 
     }).always(function () {
@@ -99,7 +100,7 @@ function findExactFit(response, allNotes) {
                 return true;
 
                 // response.chords[property][key].includes(allNotes[0]) || response.chords[property][key].includes(noteEquivalencies[allNotes[0]])
-
+                
             }
         }
     }
@@ -110,7 +111,7 @@ function findExactFit(response, allNotes) {
 function findBestAnswer(response) {
 
     if (!response.chords) {
-        console.log("No chords found for these notes :(")
+        $("#answer-box").text("No jazz chords found :( ")
         return null;
     }
 
@@ -329,6 +330,7 @@ If there's more possibilities 4 likelihoods or more down, say "these results are
 function displayLikelyMatches(possibleMatches) {
     console.log(possibleMatches);
     var listeners = 0;
+    var unlikelyResult = ""
     for (let i = 0; i < possibleMatches.length; i++) {
         if (!possibleMatches[i].length) {
             continue;
@@ -337,22 +339,35 @@ function displayLikelyMatches(possibleMatches) {
             let currChord = possibleMatches[i][j];
             if (!listeners) {
                 //RESULT TO BE DISPLAYED
+        $("#answer-box").text("Most Likely Result:" + currChord)
+       // $("#approx-result").text("" + currChord)
+                
                 console.log(currChord);
                 listeners = i;
             } else {
                 if (i === listeners) {
                     //EQUALLY LIKELY RESULTS, NOT DISPLAYED
                     console.log("equally likely " + currChord)
+                   // $("#approx-result").text("Equally Likely: " + currChord)
+                   unlikelyResult += ("Equally Likely: " + currChord);
                 } else {
                     //LESS LIKELY, STILL POSSIBLE RESULTS. DEPENDENT ON TIER OF FIRST RESULT
                     if ( (i - listeners) === 1) {
                         console.log(`Still fairly likely ${currChord}`)
+                      
+                        unlikelyResult += ("Equally Likely: " + currChord);
                     } else if ((i - listeners) === 2 ) {
                         console.log(`This is fairly unlikely: ${currChord}`)
+                        unlikelyResult += ("Equally Likely: " + currChord);
+                       
                     } else if ((i - listeners) === 3) {
                         console.log(`This is quite unlikely ${currChord}`);
+                       
+                        unlikelyResult += ("Equally Likely: " + currChord);
                     } else {
                         console.log(`This is very unlikely, but still technically possible ${currChord}`);
+                        
+                        unlikelyResult += ("Equally Likely: " + currChord);
                     }
                 }
             }
@@ -360,5 +375,6 @@ function displayLikelyMatches(possibleMatches) {
         }
 
     }
+    $("#approx-result").text(unlikelyResult)
 
 }
