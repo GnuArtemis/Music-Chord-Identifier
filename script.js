@@ -65,6 +65,8 @@ function findExactFit(response) {
             }
         }
     }
+
+
 }
 //This will only trigger if we have at least 3 keys pressed, and there is NO exact match 
 function findBestAnswer(response) {
@@ -178,6 +180,12 @@ $("#submit").on("click", function (e) {
     getChord(pressedKeys);
 })
 
+// 1.  If there is NO exact match, add 1st in the list of possible matches, and text that says that there is no exact match
+// 2.  secondary box conaining possible, less likely answers
+// If there's more possibilities in the array, say "these results are equally likely: "
+// If there's possiblities 1 likelihood down, say "these results are less likely"
+// ...
+// If there's more possibilities 4 likelihoods or more down, say "these results are very unlikely, but still possible depending on context"
 
 /*
 1.  If there is NO exact match, add 1st in the list of possible matches, and text that says that there is no exact match
