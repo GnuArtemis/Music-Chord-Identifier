@@ -51,7 +51,7 @@ function getChord(notes,intervals) {
             urlFormat += notes[i];
         }
     }
-
+    setPageLoading(true);
 
     $.ajax({
         url: `https://cors-anywhere.herokuapp.com/www.tofret.com/reverse-chord-finder.php?return-type=json&notes=${urlFormat}}`,
@@ -70,6 +70,7 @@ function getChord(notes,intervals) {
 
     }).always(function () {
         refreshKeys();
+        setPageLoading(false);
     })
 }
 
@@ -210,7 +211,20 @@ else if (distance == 11){
 
 }
 
-
+function setPageLoading(isLoading) {
+    if(isLoading) {
+        $(".preloader-wrapper").show();
+        $(".submit-button-area").hide();
+        $("#chord-image").hide();
+        $("#chord-sound").hide();
+    }
+    else {
+        $(".preloader-wrapper").hide();
+        $(".submit-button-area").show();
+        $("#chord-image").show();
+        $("#chord-sound").show();
+    }
+}
 
 function displayChordImage(chord, attribute) {
     attribute = formatAttr(attribute);
@@ -222,13 +236,15 @@ function displayChordSound(chord, attribute) {
     $("#chord-sound").html(`<ins class=\"scales_chords_api\" chord=\"${chord}${attribute}\" instrument=\"piano\" output=\"sound\"></ins>`);
 }
 
+
+
 function formatAttr(attribute) {
     let table = {
-        'major': 'M',
-        'major6': 'M6',
-        'major7': 'M7',
-        'major9': 'M9',
-        'major11': 'M11',
+        'major': 'maj',
+        'major6': 'maj6',
+        'major7': 'maj7',
+        'major9': 'maj9',
+        'major11': 'maj11',
         'minor': 'm',
         'minor6': 'm6',
         'minor7': 'm7',
@@ -269,7 +285,8 @@ function setButtonState() {
 // activates the hamburger menu for external links in NAV bar.
 $(document).ready(function () {
     $('.sidenav').sidenav();
-    generateKeyboard(0, 0, document.getElementById("keyboard"));
+    generateKeyboard(0, 1, document.getElementById("keyboard"));
+    $(".preloader-wrapper").hide();
     setButtonState();
 });
 
@@ -287,7 +304,7 @@ $("#submit").on("click", function (e) {
     intervals = [];
 
     $(".key").each(function () {
-        if ($(this).attr("data-active") === "true") {
+        if ($(this).attr("data-active") === "true" && pressedKeys.indexOf($(this).attr("data-note")) === -1) {
         intervals.push($(this).attr("data-index") )
         pressedKeys.push($(this).attr("data-note"));
         }
