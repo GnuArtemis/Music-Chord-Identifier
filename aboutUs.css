@@ -1,9 +1,21 @@
+/* // Here we add background image, color and some styling */
+
 body {
-    background-image: url("assets/about_us_background.jpg");
-    background: no-repeat;
+    background-image: url("assets/about-us-background-image.jpg");
+    background-color: ghostwhite;
+    background-repeat: no-repeat;
     background-size: cover;
-    }
-    .sidenav {
-        color: black;
-    }
-    
+}
+
+.sidenav {
+    color: black;
+}
+
+
+}
+.sidenav {
+    color: black;
+}
+#nav-text {
+    white-space: nowrap;
+}

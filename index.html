@@ -16,12 +16,12 @@
 <body>
     <nav>
         <div class="nav-wrapper blue z-depth-5">
-          <a href="#!" class="brand-logo center">♪♫ <em>A</em>chord<em>ing to Jazz</em> ♫♪</a>
+          <a href="#!" class="brand-logo center" id= "nav-text">♪♫ <em>A</em>chord<em>ing to Jazz</em> ♫♪</a>
           <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
           <ul id="nav-mobile" class="left hide-on-med-and-down">
-            <li><a href="https://www.youtube.com/user/PianoLessonsForKids"target="_blank">&#127929 FREE lessons online!</a></li>
-            <li><a href="https://www.pianoscales.org/chords.html"target="_blank">&#127926 Theory deeper-dive ♪ </a></li>
-            <li><a href="https://www.youtube.com/channel/UCdSjFANsAbiTPU0y8A8yOSQ"target="_blank">Get inspired</a></li>
+            <li><a href="https://www.youtube.com/user/PianoLessonsForKids"target="_blank">&#127929 youTube lessons!</a></li>
+            <li><a href="https://www.pianoscales.org/chords.html"target="_blank">Theory♪ </a></li>
+            <li><a href="https://www.youtube.com/channel/UCdSjFANsAbiTPU0y8A8yOSQ"target="_blank">Inspiration</a></li>
           </ul>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="aboutUs.html">About Us!</a></li>
@@ -30,16 +30,16 @@
     </nav>
 
     <ul class="sidenav" id="mobile-demo">
-        <li><a href="https://www.youtube.com/user/PianoLessonsForKids" target="_blank">&#127929 FREE lessons online!</a></li>
-        <li><a href="https://www.pianoscales.org/chords.html" target="_blank">&#127926 Theory deeper-dive ♪ </a></li>
-        <li><a href="https://www.youtube.com/channel/UCdSjFANsAbiTPU0y8A8yOSQ" target="_blank">Get inspired</a></li>
+        <li><a href="https://www.youtube.com/user/PianoLessonsForKids" target="_blank">&#127929 youTube lessons!</a></li>
+        <li><a href="https://www.pianoscales.org/chords.html" target="_blank">Theory♪ </a></li>
+        <li><a href="https://www.youtube.com/channel/UCdSjFANsAbiTPU0y8A8yOSQ" target="_blank">Inspiration</a></li>
         <li><a href="aboutUs.html">About Us!</a></li>
     </ul>
     <div class="container">
         <div class="second"></div>
         <div class="row"></div>
     <div class="row">
-        <div class="col s2 offset-s5 center">
+        <div class="col s12 m4 offset-m4 center">
           <div class="card-panel white">
             <span id= "answer-box" class="black-text chord-result">?
             </span>
@@ -57,61 +57,87 @@
             <div class="col s12">
                 <div id="keyboard" class="keyboard-holder"></div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col s4 offset-s4 center">
-                <div class="alternative-chords center">
-                    <div class="card-panel white">
-                        <span class="black-text chord-result" id="approx-result">?
-                        </span>
+            <div class="row">
+                <div class="col s12  m6 offset-m3 center">
+                    <div class="alternative-chords center">
+                        <div class="card-panel white">
+                            <span class="black-text chord-result" id="approx-result">?</span>
+                            <ul class="collapsible" id="possible-results"></ul>
+                        </div>
+
                     </div>
 
                 </div>
-
             </div>
-        </div>
 
-        <!-- chord image and sound -->
-        <div class="row">
-            <div class="col s12">
-                <div id="chord-image" class="center">
-                </div>
-                <div id="chord-sound" class="center">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col s12">
-                <!-- loading circle thing -->
-                <div class="center">
-                    <div class="preloader-wrapper active">
-                        <div class="spinner-layer spinner-red-only">
-                        <div class="circle-clipper left">
-                            <div class="circle"></div>
-                        </div><div class="gap-patch">
-                            <div class="circle"></div>
-                        </div><div class="circle-clipper right">
-                            <div class="circle"></div>
-                        </div>
-                        </div>
+            <!-- chord image and sound -->
+            <div class="row">
+                <div class="col s12">
+                    <div id="chord-image" class="center">
+                    </div>
+                    <div id="chord-sound" class="center">
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <!-- loading circle thing -->
+                    <div class="center">
+                        <div class="preloader-wrapper active">
+                            <div class="spinner-layer spinner-red-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                      <!-- <div class="container"> -->
+                           <div class="submit-button-area center"> <button id="submit" class="notebutton">
+                        <i class="material-icons black-text">music_note</i>
+                        <i class="material-icons grey-text">music_note</i>
+                        <a
+                          href="#"
+                          class="btn-large btn-floating black waves-effect waves-light accent-2 white-text"
+                          >ENTER</a>
+                        <i class="material-icons grey-text">music_note</i>
+                        <i class="material-icons black-text">music_note</i>
+                       </div>
+                </div>
+<!--                
                 <div class="submit-button-area center"> <button id="submit" class="notebutton"><i class="material-icons">music_note</i>
-                        SUBMIT <i class="material-icons">music_note</i></button></div>
+                        SUBMIT <i class="material-icons">music_note</i></button></div> -->
             </div>
         </div>
-    </div>
 
-    <!-- Materialize JavaScript -->
+        <!-- Modal for definitions -->
+        <div id="definitions" class="modal">
+            <div class="modal-content">
+                <h4 id="def-header" class="center">Directions</h4>
+                <p id="def-body" class="center"> Click the keyboard below to designate notes, then hit submit to find out what Jazz chord it might be! </p>
+            </div>
+            <div class="modal-footer">
+                <a id="source" href="https://en.wikipedia.org/wiki/List_of_chords" target="blank" class="left">Chord info: further information and source</a>
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+
+        <!-- Materialize JavaScript -->
 
 
-    <script src="js/audiosynth.js"></script>
-    <script src="js/playKeyboard.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script async type="text/javascript" src="https://www.scales-chords.com/api/scales-chords-api.js"></script>
-    <script src="script.js"></script>
+
+        <script src="js/audiosynth.js"></script>
+        <script src="js/playKeyboard.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script async type="text/javascript" src="https://www.scales-chords.com/api/scales-chords-api.js"></script>
+        <script src="script.js"></script>
 </body>
 
 </html>
