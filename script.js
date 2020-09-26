@@ -20,6 +20,7 @@ $("#submit").on("click", function (e) {
     })
     // console.log(pressedKeys); //Legacy code for the purpose of testing
     refreshKeys();
+    $(".hide-when-searching").hide();
     getChord(pressedKeys, intervals);
 })
 
@@ -324,6 +325,7 @@ $(document).ready(function () {
     $(".preloader-wrapper").hide();
     setButtonState();
     $('.collapsible').collapsible();
+    $(".hide-when-searching").hide();
 });
 
 //Object redefining chord qualities for use in 2nd API (that plays the chord)
@@ -404,9 +406,16 @@ function getChordProgressions(chord) {
             if(str.trim().length!=0) tokens.push(str);
         }
         
-        for(let i = 1; i < tokens.length-1; i+=8) {
-            progressionArea.append($("<div>").text(tokens[i]));
-            progressionArea.append($("<div>").text(`${tokens[i+1]}\t${tokens[i+2]}\t${tokens[i+3]}\t${tokens[i+4]}\t${tokens[i+5]}\t${tokens[i+6]}\t${tokens[i+7]}`));
-        }
+        
+            progressionArea.append($("<div>").addClass("chord-prog-header").text(`Related chords in the key of ${chord.substring(0,chord.length-3)} major`));
+            progressionArea.append($("<div>").addClass("divider"));
+            const body = $("<div>").addClass("chord-prog-body");
+            progressionArea.append(body);
+            
+            for(let i = 2; i < 9; i++) {
+                body.append($("<span>").text(tokens[i]));
+            }
+            $(".hide-when-searching").show();
+        
       })()
 }

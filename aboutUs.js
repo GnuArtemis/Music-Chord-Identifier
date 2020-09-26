@@ -51,7 +51,7 @@ $(document).ready(function () {
         linkLable: "Matt's Github",
       },
       linkedInLink: {
-        url: "#",
+        url: "https://www.linkedin.com/in/matthew-weber-884a03122/",
         linkLable: "Matt's LinkedIn",
       },
     },
