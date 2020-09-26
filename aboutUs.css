@@ -1,5 +1,9 @@
 body {
     background-image: url("assets/about_us_background.jpg");
-    background-repeat: no-repeat;
+    background: no-repeat;
     background-size: cover;
-}
+    }
+    .sidenav {
+        color: black;
+    }
+    
