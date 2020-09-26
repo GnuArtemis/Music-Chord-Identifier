@@ -225,43 +225,64 @@ function displayLikelyMatches(possibleMatches) {
 function onlyTwoNotes(notes, intervals) {
     var distance = Math.abs(intervals[0] - intervals[1])
     if (distance == 1) {
-
-        console.log("this is a minor second")
-        $("#answer-box").text("Minor 2nd")
+        $("#answer-box").text("Minor 2nd");
 
     } else if (distance == 2) {
-        $("#answer-box").text("Major 2nd")
+        $("#answer-box").text("Major 2nd");
     }
     else if (distance == 3) {
-        $("#answer-box").text("Minor 3rd")
+        $("#answer-box").text("Minor 3rd");
     }
     else if (distance == 4) {
-        $("#answer-box").text("Major 3rd")
+        $("#answer-box").text("Major 3rd");
     }
     else if (distance == 5) {
-        $("#answer-box").text("Perfect 4th")
+        $("#answer-box").text("Perfect 4th");
     }
     else if (distance == 6) {
-        $("#answer-box").text("Tritone")
+        $("#answer-box").text("Tritone");
     }
     else if (distance == 7) {
-        $("#answer-box").text("Perfect 5th")
+        $("#answer-box").text("Perfect 5th");
     }
     else if (distance == 8) {
-        $("#answer-box").text("Minor 6th")
+        $("#answer-box").text("Minor 6th");
     }
     else if (distance == 9) {
-        $("#answer-box").text("Major 6th")
+        $("#answer-box").text("Major 6th");
     }
     else if (distance == 10) {
-        $("#answer-box").text("Minor 7th")
+        $("#answer-box").text("Minor 7th");
     }
     else if (distance == 11) {
-        $("#answer-box").text("Major 7th")
+        $("#answer-box").text("Major 7th");
     }
-
+    else if (distance == 12) {
+        $("#answer-box").text("Octave");
+    }
+    else if (distance == 13) {
+        $("#answer-box").text("Minor 9th");
+    }
+    else if (distance == 14) {
+        $("#answer-box").text("Major 9th");
+    }
+    else if (distance == 15) {
+        $("#answer-box").text("Minor 10th");
+    }
+    else if (distance == 16) {
+        $("#answer-box").text("Major 10th");
+    }
+    else if (distance == 17) {
+        $("#answer-box").text("Perfect 11th")
+    }
+    else if (distance == 18) {
+        $("#answer-box").text("Tritone")
+    }
+    else if (distance == 19) {
+        $("#answer-box").text("Perfect 12th")
+    }
     else { //if distance greater than 19
-        $("#answer-box").text("Intervals are not well defined this far apart")
+        $("#answer-box").text("Intervals this far apart are not well defined")
     }
 
 }
