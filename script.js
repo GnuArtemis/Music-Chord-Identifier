@@ -323,6 +323,7 @@ $(document).ready(function () {
     generateKeyboard(0, 1, document.getElementById("keyboard"));
     $(".preloader-wrapper").hide();
     setButtonState();
+    $('.collapsible').collapsible();
 });
 
 //Object redefining chord qualities for use in 2nd API (that plays the chord)
