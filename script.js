@@ -24,6 +24,7 @@ function getChord(notes, intervals) {
             }
         }
 
+        setPageLoading(true);
 
         $.ajax({
             url: `https://cors-anywhere.herokuapp.com/www.tofret.com/reverse-chord-finder.php?return-type=json&notes=${urlFormat}}`,
@@ -36,11 +37,13 @@ function getChord(notes, intervals) {
 
             if (!findExactFit(response, allNotes)) {
                 var possibleMatches = findBestAnswer(response, allNotes);
-                if(possibleMatches) displayLikelyMatches(possibleMatches);
+                if (possibleMatches) displayLikelyMatches(possibleMatches);
             }
 
         }).always(function () {
             refreshKeys();
+
+            setPageLoading(false);
         })
     }
 }
@@ -82,7 +85,7 @@ function findExactFit(response, allNotes) {
 function findBestAnswer(response) {
 
     if (!response.chords) {
-        console.log("No chords found for these notes :(")
+        $("#answer-box").text("No jazz chords found :( ")
         return null;
     }
 
@@ -123,13 +126,6 @@ function findBestAnswer(response) {
             }
         }
     }
-
-    console.log(likelihood0);
-    console.log(likelihood1);
-    console.log(likelihood2);
-    console.log(likelihood3);
-    console.log(likelihood4);
-    console.log(likelihood5);
 
     return [likelihood0, likelihood1, likelihood2, likelihood3, likelihood4, likelihood5]
 }
@@ -183,7 +179,20 @@ function onlyTwoNotes(notes, intervals) {
 
 }
 
-
+function setPageLoading(isLoading) {
+    if (isLoading) {
+        $(".preloader-wrapper").show();
+        $(".submit-button-area").hide();
+        $("#chord-image").hide();
+        $("#chord-sound").hide();
+    }
+    else {
+        $(".preloader-wrapper").hide();
+        $(".submit-button-area").show();
+        $("#chord-image").show();
+        $("#chord-sound").show();
+    }
+}
 
 function displayChordImage(chord, attribute) {
     attribute = formatAttr(attribute);
@@ -216,7 +225,8 @@ function setButtonState() {
 // activates the hamburger menu for external links in NAV bar.
 $(document).ready(function () {
     $('.sidenav').sidenav();
-    generateKeyboard(0, 0, document.getElementById("keyboard"));
+    generateKeyboard(0, 1, document.getElementById("keyboard"));
+    $(".preloader-wrapper").hide();
     setButtonState();
 });
 
@@ -234,7 +244,7 @@ $("#submit").on("click", function (e) {
     intervals = [];
 
     $(".key").each(function () {
-        if ($(this).attr("data-active") === "true") {
+        if ($(this).attr("data-active") === "true" && pressedKeys.indexOf($(this).attr("data-note")) === -1) {
             intervals.push($(this).attr("data-index"))
             pressedKeys.push($(this).attr("data-note"));
         }
@@ -249,6 +259,7 @@ var intervals;
 function displayLikelyMatches(possibleMatches) {
     console.log(possibleMatches);
     var listeners = 0;
+    var unlikelyResult = ""
     for (let i = 0; i < possibleMatches.length; i++) {
         if (!possibleMatches[i].length) {
             continue;
@@ -257,22 +268,35 @@ function displayLikelyMatches(possibleMatches) {
             let currChord = possibleMatches[i][j];
             if (!listeners) {
                 //RESULT TO BE DISPLAYED
+                $("#answer-box").text("Most Likely Result:" + currChord)
+                // $("#approx-result").text("" + currChord)
+
                 console.log(currChord);
                 listeners = i;
             } else {
                 if (i === listeners) {
                     //EQUALLY LIKELY RESULTS, NOT DISPLAYED
                     console.log("equally likely " + currChord)
+                    // $("#approx-result").text("Equally Likely: " + currChord)
+                    unlikelyResult += ("Equally Likely: " + currChord);
                 } else {
                     //LESS LIKELY, STILL POSSIBLE RESULTS. DEPENDENT ON TIER OF FIRST RESULT
                     if ((i - listeners) === 1) {
                         console.log(`Still fairly likely ${currChord}`)
+
+                        unlikelyResult += ("Equally Likely: " + currChord);
                     } else if ((i - listeners) === 2) {
                         console.log(`This is fairly unlikely: ${currChord}`)
+                        unlikelyResult += ("Equally Likely: " + currChord);
+
                     } else if ((i - listeners) === 3) {
                         console.log(`This is quite unlikely ${currChord}`);
+
+                        unlikelyResult += ("Equally Likely: " + currChord);
                     } else {
                         console.log(`This is very unlikely, but still technically possible ${currChord}`);
+
+                        unlikelyResult += ("Equally Likely: " + currChord);
                     }
                 }
             }
@@ -280,6 +304,7 @@ function displayLikelyMatches(possibleMatches) {
         }
 
     }
+    $("#approx-result").text(unlikelyResult)
 
 }
 
@@ -314,11 +339,11 @@ var abbrev = {
 
 function formatAttr(attribute) {
     let table = {
-        'major': 'M',
-        'major6': 'M6',
-        'major7': 'M7',
-        'major9': 'M9',
-        'major11': 'M11',
+        'major': 'maj',
+        'major6': 'maj6',
+        'major7': 'maj7',
+        'major9': 'maj9',
+        'major11': 'maj11',
         'minor': 'm',
         'minor6': 'm6',
         'minor7': 'm7',

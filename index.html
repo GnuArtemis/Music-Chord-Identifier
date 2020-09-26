@@ -30,8 +30,7 @@
     </nav>
 
     <ul class="sidenav" id="mobile-demo">
-        <li><a href="https://www.youtube.com/user/PianoLessonsForKids" target="_blank">&#127929 FREE lessons online!</a>
-        </li>
+        <li><a href="https://www.youtube.com/user/PianoLessonsForKids" target="_blank">&#127929 FREE lessons online!</a></li>
         <li><a href="https://www.pianoscales.org/chords.html" target="_blank">&#127926 Theory deeper-dive ♪ </a></li>
         <li><a href="https://www.youtube.com/channel/UCdSjFANsAbiTPU0y8A8yOSQ" target="_blank">Get inspired</a></li>
         <li><a href="aboutUs.html">About Us!</a></li>
@@ -59,7 +58,7 @@
             <div class="col s4 offset-s4 center">
                 <div class="alternative-chords center">
                     <div class="card-panel white">
-                        <span class="black-text chord-result">?
+                        <span class="black-text chord-result" id="approx-result">?
                         </span>
                     </div>
 
@@ -79,7 +78,21 @@
         </div>
         <div class="row">
             <div class="col s12">
-                <div class="center"> <button id="submit" class="notebutton"><i class="material-icons">music_note</i>
+                <!-- loading circle thing -->
+                <div class="center">
+                    <div class="preloader-wrapper active">
+                        <div class="spinner-layer spinner-red-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="submit-button-area center"> <button id="submit" class="notebutton"><i class="material-icons">music_note</i>
                         SUBMIT <i class="material-icons">music_note</i></button></div>
             </div>
         </div>
