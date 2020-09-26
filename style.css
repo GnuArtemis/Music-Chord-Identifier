@@ -112,3 +112,7 @@ margin: 0, auto;
 
 
 }
+
+#nav-text {
+    white-space: nowrap;
+}
