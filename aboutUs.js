@@ -1,11 +1,12 @@
 $(document).ready(function () {
   $(".carousel").carousel();
+  $('.sidenav').sidenav();
 
   var profileInfo = {
     team: {
       name: "Meet Our Team",
       blurb:
-        "We are a group of individuals from a variety of backgrounds taking these pandemic times by the horns and choosing to learn the powerful art of coding!",
+        "We are a varied group of UW Full Stack Coding Bootcamp students. From musicians, to barkeeps, to engineers, to builders, we are collectively taking these pandemic times by the horns and choosing to learn the powerful art of coding!",
       gitHubLink: {
         url: "https://github.com/GnuArtemis/Music-Chord-Identifier",
         linkLable: "Github Link for project details",
@@ -18,7 +19,7 @@ $(document).ready(function () {
 
     caitlin: {
       name: "Caitlin Bouroncle",
-      blurb: "I am a momager, and a manager, a runner, a dreamer. I am proud to be in the UW Bootcamp for Full Stack Developers, and am excited beyond measure to take my new skills to new heights! Please follow my links and get to know me",
+      blurb: "I am a momager, a Financial Manager, a runner, a dreamer. I am proud to be in the UW Bootcamp for Full Stack Developers, and am excited beyond measure to combine my new proficiencies with my well established expertise to launch my career to new heights! Please follow my links and get to know me more.",
       gitHubLink: {
         url: "https://github.com/caitlinbou",
         linkLable: "Caitlin's Github",
