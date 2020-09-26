@@ -59,11 +59,11 @@ $(document).ready(function () {
       name: "Petar Zivkovic",
       blurb: "I have been in construction for years, am always eager to help, and can not WAIT to move into a new career in coding.",
       gitHubLink: {
-        url: "#",
+        url: "https://github.com/Petar85",
         linkLable: "Petar's Github",
       },
       linkedInLink: {
-        url: "#",
+        url: "https://www.linkedin.com/in/petar-zivkovic-6b88ba1b3/",
         linkLable: "Petar's LinkedIn",
       },
     },
