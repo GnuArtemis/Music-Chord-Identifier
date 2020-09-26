@@ -1,3 +1,4 @@
+<<<<<<< HEAD
      /* // Here we set up the background image and color in the case image does not load with some styling */
      
      body {
@@ -114,3 +115,123 @@
      }
      
      .notebutton {}
+=======
+.chord-result {
+margin: 0, auto;
+}
+
+
+#keyboard {
+    height: 220px;
+}
+
+.white {
+    border: 1px solid black;
+    /* background-color: white; */
+    z-index: 0;
+}
+
+.black {
+    /* background-color: black; */
+    color: white;
+    z-index: 1;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.label {
+    position: absolute;
+    bottom: 20px;
+}
+
+.key {
+    position: absolute;
+    font-family: Helvetica;
+    font-weight: 100;
+    font-size: 12px;
+    border: 1px solid rgba(32,32,32,0.2);
+    border-radius: 0px 0px 5px 5px;
+    cursor: pointer;
+    box-shadow: 0px 5px 1px rgba(32,32,32,0.2);
+    -webkit-transition: margin 0.05s ease, background-color 0.05s ease, box-shadow 0.05s ease;
+}
+
+.keyboard-holder {
+    position: relative;
+    margin: 0 auto;
+}
+
+.key[data-active="true"] {
+    margin-top: 5px;
+    box-shadow: none;
+}
+
+.key[data-note='A'][data-active="true"] {
+    background-color: indigo !important;
+}
+
+.key[data-note='A#'][data-active="true"] {
+    background-color: violet !important;
+}
+
+.key[data-note='B'][data-active="true"] {
+    background-color: pink !important;
+}
+
+.key[data-note='C'][data-active="true"] {
+    background-color: red !important;
+}
+
+.key[data-note='C#'][data-active="true"] {
+    background-color: orangered !important;
+}
+
+.key[data-note='D'][data-active="true"] {
+    background-color: orange !important;
+}
+
+.key[data-note='D#'][data-active="true"] {
+    background-color: yellow !important;
+}
+
+.key[data-note='E'][data-active="true"] {
+    background-color: yellowgreen !important;
+}
+
+.key[data-note='F'][data-active="true"] {
+    background-color: green !important;
+}
+
+.key[data-note='F#'][data-active="true"] {
+    background-color: lightblue !important;
+}
+
+.key[data-note='G'][data-active="true"] {
+    background-color: blue !important;
+}
+.key[data-note='G#'][data-active="true"] {
+    background-color: darkblue !important;
+}
+
+.sidenav {
+    color: black;
+}
+
+.alternative-chords {
+    width: 70% !important
+
+
+
+}
+.notebutton {
+    /* background-image: url("assets/note-1a.jpg"); */
+
+
+}
+
+#nav-text {
+    white-space: nowrap;
+}
+>>>>>>> dev

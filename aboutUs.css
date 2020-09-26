@@ -10,3 +10,12 @@ body {
 .sidenav {
     color: black;
 }
+
+
+}
+.sidenav {
+    color: black;
+}
+#nav-text {
+    white-space: nowrap;
+}
