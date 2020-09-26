@@ -91,10 +91,16 @@ function findExactFit(response, allNotes) {
                 console.log("HIT!!!");
                 //DESIRED ANSWER IN DESIRED FORMAT
                 console.log(`${property} ${key}`);
-                $(".chord-result").text(`${property} ${key}`)
-                displayChordImage(property, key);
-                displayChordSound(property, key);
+                
+                //updating page
+                $(".chord-result").text(`${property} ${key}`);
+                let chord = property + formatAttr(key);
+                displayChordImage(chord);
+                displayChordSound(chord);
+                getChordProgressions(chord)
                 scales_chords_api_onload();
+                //end updating page
+
                 console.log(response.chords[property][key])
                 return true;
 
@@ -225,14 +231,14 @@ function setPageLoading(isLoading) {
     }
 }
 
-function displayChordImage(chord, attribute) {
-    attribute = formatAttr(attribute);
-    $("#chord-image").html(`<ins class=\"scales_chords_api\" chord=\"${chord}${attribute}\" instrument=\"piano\" output=\"image\"></ins>`);
+function displayChordImage(chord) {
+    //attribute = formatAttr(attribute);
+    $("#chord-image").html(`<ins class=\"scales_chords_api\" chord=\"${chord}\" instrument=\"piano\" output=\"image\"></ins>`);
 }
 
-function displayChordSound(chord, attribute) {
-    attribute = formatAttr(attribute);
-    $("#chord-sound").html(`<ins class=\"scales_chords_api\" chord=\"${chord}${attribute}\" instrument=\"piano\" output=\"sound\"></ins>`);
+function displayChordSound(chord) {
+    //attribute = formatAttr(attribute);
+    $("#chord-sound").html(`<ins class=\"scales_chords_api\" chord=\"${chord}\" instrument=\"piano\" output=\"sound\"></ins>`);
 }
 
 
@@ -287,6 +293,8 @@ $(document).ready(function () {
     generateKeyboard(0, 1, document.getElementById("keyboard"));
     $(".preloader-wrapper").hide();
     setButtonState();
+    $('.collapsible').collapsible();
+    
 });
 
 // click event to set key depress.
@@ -361,4 +369,30 @@ function displayLikelyMatches(possibleMatches) {
 
     }
 
+}
+
+//scraping stuff
+function getChordProgressions(chord) {
+    const progressionArea = $("#prog-area");
+    progressionArea.empty();
+    const start = "Chord Harmonized Progressions";
+    const end = "Scales Related to";
+    const separator = /<[^<>]*>/;
+    const url = "www.scales-chords.com/chord/piano/" + chord;
+    console.log(url);
+    //test
+    (async () => {
+        const response = await fetch("https://cors-anywhere.herokuapp.com/" + url);
+        let text = await response.text();
+        text = text.match(`${start}[\\s\\S]*${end}`)[0].split(separator);
+        let tokens = [];
+        for (const str of text) {
+            if(str.trim().length!=0) tokens.push(str);
+        }
+        
+        for(let i = 1; i < tokens.length-1; i+=8) {
+            progressionArea.append($("<div>").text(tokens[i]));
+            progressionArea.append($("<div>").text(`${tokens[i+1]}\t${tokens[i+2]}\t${tokens[i+3]}\t${tokens[i+4]}\t${tokens[i+5]}\t${tokens[i+6]}\t${tokens[i+7]}`));
+        }
+      })()
 }
