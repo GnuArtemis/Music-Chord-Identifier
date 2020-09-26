@@ -11,6 +11,10 @@ $(document).ready(function () {
         url: "https://github.com/GnuArtemis/Music-Chord-Identifier",
         linkLable: "Github Link for project details",
       },
+      personalSite: {
+        url: "#",
+        linkLable: "",
+      },
       linkedInLink: {
         url: "#",
         linkLable: "",
@@ -23,6 +27,10 @@ $(document).ready(function () {
       gitHubLink: {
         url: "https://github.com/caitlinbou",
         linkLable: "Caitlin's Github",
+      },
+      personalSite: {
+        url: "https://caitlinbou.github.io/myPortfolio1/",
+        linkLable: "Caitlin's Website",
       },
       linkedInLink: {
         url: "https://www.linkedin.com/in/caitlin-bouroncle-185b75182/",
@@ -37,6 +45,10 @@ $(document).ready(function () {
         url: "https://github.com/GnuArtemis",
         linkLable: "Ann's Github",
       },
+      personalSite: {
+        url: "https://gnuartemis.github.io/Personal-Website/",
+        linkLable: "Ann's Website",
+      },
       linkedInLink: {
         url: "https://www.linkedin.com/in/ann-guinee-b8186718b/",
         linkLable: "Ann's LinkedIn",
@@ -49,6 +61,10 @@ $(document).ready(function () {
       gitHubLink: {
         url: "https://github.com/webermg",
         linkLable: "Matt's Github",
+      },
+      personalSite: {
+        url: "#",
+        linkLable: "",
       },
       linkedInLink: {
         url: "#",
@@ -63,6 +79,10 @@ $(document).ready(function () {
         url: "https://github.com/Petar85",
         linkLable: "Petar's Github",
       },
+      personalSite: {
+        url: "#",
+        linkLable: "",
+      },
       linkedInLink: {
         url: "https://www.linkedin.com/in/petar-zivkovic-6b88ba1b3/",
         linkLable: "Petar's LinkedIn",
@@ -75,6 +95,10 @@ $(document).ready(function () {
       gitHubLink: {
         url: "https://github.com/ScottDancer",
         linkLable: "Scott's Github",
+      },
+      personalSite: {
+        url: "#",
+        linkLable: "",
       },
       linkedInLink: {
         url: "#",
@@ -93,6 +117,8 @@ $(document).ready(function () {
         $(".blurb").text(profileInfo[id].blurb);
         $(".github").text(profileInfo[id].gitHubLink.linkLable);
         $(".github").attr("href", profileInfo[id].gitHubLink.url);
+        $(".personalSite").text(profileInfo[id].personalSite.linkLable);
+        $(".personalSite").attr("href", profileInfo[id].personalSite.url);
         $(".linkedin").text(profileInfo[id].linkedInLink.linkLable);
         $(".linkedin").attr("href", profileInfo[id].linkedInLink.url);
       }
