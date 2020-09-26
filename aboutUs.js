@@ -91,7 +91,7 @@ $(document).ready(function () {
 
     scott: {
       name: "Scott Dancer",
-      blurb: "I am an artist who lives at the best beach in the Northwest, and love a good challenge. I also make a mean cocktail, but can't wait to be a developer instead.",
+      blurb: "I am an illustrator, cartoonist, and graphic designer. I live a great life on the Oregon coast, and find the creative art of coding equally rewarding as it is challenging. In my current career, I create unique and modern variations of classic cocktails. My new career as a full stack web developer is beckoning and everyday I learn new skills that will help me answer that call. ",
       gitHubLink: {
         url: "https://github.com/ScottDancer",
         linkLable: "Scott's Github",
