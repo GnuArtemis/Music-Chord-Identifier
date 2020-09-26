@@ -10,7 +10,8 @@ $("#keyboard").on("click", ".key", function (e) {
 $("#submit").on("click", function (e) {
     const pressedKeys = [];
     intervals = [];
-
+    $("#possible-results").empty();
+    $("#approx-result").empty();
     $(".key").each(function () {
         if ($(this).attr("data-active") === "true") {
             intervals.push($(this).attr("data-index"))
@@ -59,7 +60,7 @@ function getChord(notes, intervals) {
         }).then(function (response) {
 
             response = JSON.parse(response);
-            console.log(response); // Legacy code for the purpose of testing
+            // console.log(response); // Legacy code for the purpose of testing
 
             //First, looks for an exact match with the function findExactFit. If none exists, findExactFit returns null, and thus we do a secondary search for the most likely results.
             if (!findExactFit(response, notes)) {
@@ -91,6 +92,9 @@ function findExactFit(response, notes) {
 
                 //DESIRED ANSWER IN DESIRED FORMAT
                 $(".chord-result").text(`${property} ${abbrev[key][0]}`)
+                $(".chord-result").attr("chordCode", key);
+                $(".chord-result").attr("chordRoot", property);
+
                 displayChordImage(property, key);
                 displayChordSound(property, key);
                 scales_chords_api_onload();
@@ -126,32 +130,31 @@ function findBestAnswer(response) {
     for (const property in response.chords) {
 
         for (const key in response.chords[property]) {
-            // console.log(`${property}: ${key}, ${response.chords[property][key]}`)
-            console.log(`${property} ${key}`)
+            // console.log(`${property}: ${key}, ${response.chords[property][key]}`)//Legacy code for the purpose of testing
 
             //If KEY is major, minor triad,  it is 1st likelihood
             if (key === "major" || key === "minor") {
-                likelihood0.push(`${property} ${abbrev[key][0]}`);
+                likelihood0.push([property, key]);
             }
             //If KEY is Dominant seventh, diminished or augmented triad it is 2nd likelihood
             else if (key === "dominant7th" || key === "diminished" || key === "augmented") {
-                likelihood1.push(`${property} ${abbrev[key][0]}`);
+                likelihood1.push([property, key]);
             }
             //If KEY is diminished or half diminished, it is 3rd likelihood
             else if (key === "diminished7" || key === "m7b5") {
-                likelihood2.push(`${property} ${abbrev[key][0]}`);
+                likelihood2.push([property, key]);
             }
             //If KEY is augmented, Major Seventh, or Minor Seventh, it is 4th likelihood
             else if (key === "major7" || key === "minor7" || key === "augmented7") {
-                likelihood3.push(`${property} ${abbrev[key][0]}`);
+                likelihood3.push([property, key]);
             }
             //If KEY is Extended or Suspended, it is 5th likelihood
             else if (key === "sus2" || key === "sus4") {
-                likelihood4.push(`${property} ${abbrev[key][0]}`);
+                likelihood4.push([property, key]);
             }
             //If KEY is anything else, it is sixth likelihood
             else {
-                likelihood5.push(`${property} ${abbrev[key][0]}`);
+                likelihood5.push([property, key]);
             }
 
 
@@ -161,63 +164,75 @@ function findBestAnswer(response) {
     return [likelihood0, likelihood1, likelihood2, likelihood3, likelihood4, likelihood5]
 }
 
-//Takes the nested array of sorted potential matches, and displays them in order of likelihood. Only 5 results are allowed on the page
+//Takes the nested array of sorted potential matches, and displays them in order of likelihood. Only 5 results in total are shown, and exact results are hidden in dropdowns
 function displayLikelyMatches(possibleMatches) {
-    console.log(possibleMatches);
-    var listeners = 0;
-    var unlikelyResult = "";
+    var listener = 0;
     var limitResults = 0;
+
+    var collapseList = $("#possible-results");
     for (let i = 0; i < possibleMatches.length; i++) {
         if (!possibleMatches[i].length) {
             continue;
         }
+        var listEl = $("<li>");
+        var header = $("<div>");
+        header.addClass("collapsible-header");
+        var bod = $("<div>");
+        bod.addClass("collapsible-body");
+
+        listEl.append(header, bod);
+
+
         for (let j = 0; j < possibleMatches[i].length; j++) {
             let currChord = possibleMatches[i][j];
-            if (!listeners) {
+            if (!listener) {
                 //RESULT TO BE DISPLAYED
-                $("#answer-box").text("Most Likely Result:" + currChord)
+                $("#answer-box").text(`Most likely result: ${currChord[0]} ${abbrev[currChord[1]][0]}`)
+                $(".chord-result").attr("chordCode", currChord[0]);
+                $(".chord-result").attr("chordRoot", currChord[1]);
                 // $("#approx-result").text("" + currChord)
 
-                console.log(currChord);
-                listeners = i;
-            } else {
-                if (limitResults < 5) {
-                    if (i === listeners) {
-                        //EQUALLY LIKELY RESULTS, NOT DISPLAYED
-                        // console.log("equally likely " + currChord)
+                displayChordImage(currChord[0], currChord[1]);
+                displayChordSound(currChord[0], currChord[1]);
+                scales_chords_api_onload();
 
-                        unlikelyResult += (" ||| Equally Likely: " + currChord);
+                listener = i;
+            } else {
+                //    <a class="waves-effect waves-light btn modal-trigger" href="#definitions">Modal</a>
+                let nextChord = $("<a>");
+                nextChord.addClass("waves-effect waves-light btn modal-trigger");
+                nextChord.attr("href", "#definitions");
+                nextChord.data("chordCode", currChord[1]);
+                nextChord.data("chordRoot", currChord[0])
+                nextChord.text(`${currChord[0]} ${abbrev[currChord[1]][0]}`);
+                bod.append(nextChord);
+                bod.append("<br>")
+
+                if (limitResults < 5) {
+                    if (i === listener) {
+                        header.text("Equally Likely Chords: ");
                         limitResults++;
                     } else {
                         //LESS LIKELY, STILL POSSIBLE RESULTS. DEPENDENT ON TIER OF FIRST RESULT
-                        if ((i - listeners) === 1) {
-                            console.log(`Still fairly likely ${currChord}`)
-
-                            unlikelyResult += (" ||| Fairly Likely: " + currChord);
+                        if ((i - listener) === 1) {
+                            header.text("Fairly Likely Chords: ");
                             limitResults++;
-                        } else if ((i - listeners) === 2) {
-                            console.log(`This is fairly unlikely: ${currChord}`)
-                            unlikelyResult += (" ||| Fairly Unlikely: " + currChord);
+                        } else if ((i - listener) === 2) {
+                            header.text("Fairly Unlikely Chords: ");
                             limitResults++;
-                        } else if ((i - listeners) === 3) {
-                            console.log(`This is quite unlikely ${currChord}`);
-
-                            unlikelyResult += (" ||| Quite Unlikely: " + currChord);
+                        } else if ((i - listener) === 3) {
+                            header.text("Quite Unlikely Chords");
                             limitResults++;
                         } else {
-                            console.log(`This is very unlikely, but still technically possible ${currChord}`);
-
-                            unlikelyResult += (" ||| Technically possible :) " + currChord);
+                            header.text("Technically Possible Chords:");
                             limitResults++;
                         }
                     }
                 }
-
+                collapseList.append(listEl)
             }
 
         }
-        //Puts the entire list of possible results onto the document
-        $("#approx-result").text(unlikelyResult + " ||| ");
     }
 }
 
@@ -332,13 +347,45 @@ function setButtonState() {
     document.getElementById("submit").disabled = !anySelected;
 }
 
-// Activates the hamburger menu for external links in NAV bar.
+// Activates the hamburger menu for external links in NAV bar, activates the collapsible, generates the keyboard, opens the modal with directions if this is the first time the page has been visited
 $(document).ready(function () {
     $('.sidenav').sidenav();
     generateKeyboard(0, 1, document.getElementById("keyboard"));
     $(".preloader-wrapper").hide();
     setButtonState();
+    $('.collapsible').collapsible();
+    $('.modal').modal();
+
+    if (!localStorage.getItem("visited")) {
+        $('.modal').modal('open');
+        localStorage.setItem("visited", "true")
+    }
 });
+
+//Click event to trigger the modal
+$("#possible-results").on("click", function (event) {
+    if ($(event.target).data('chordCode')) modalInfo(event);
+})
+
+
+// Planned future functionality, so that the modal event can be triggered from the top list as well as "possible but less likely" answers
+// $(".answer-box").on("click", function(event){
+//     if ($(event.target).data('chordCode')) modalInfo(event);
+// })
+
+
+//Brings up a modal with a short definition of the clicked chord, link to more information, and gives the static image+soundbyte of the chord in the designated spot
+function modalInfo(event) {
+    const attribute = $(event.target).data('chordCode');
+    const chord = $(event.target).data('chordRoot')
+
+    $("#def-header").text(abbrev[attribute][0]);
+    $("#def-body").text(abbrev[attribute][1]);
+
+    displayChordImage(chord, attribute);
+    displayChordSound(chord, attribute);
+    scales_chords_api_onload();
+}
 
 //Object redefining chord qualities for use in 2nd API (that plays the chord)
 function formatAttr(attribute) {
@@ -369,16 +416,14 @@ function formatAttr(attribute) {
     return table[attribute];
 }
 
-//Reformats the API result with no abbreviations and proper formatting
+//Reformats the API result with no abbreviations and proper formatting, provides the chord definitions
 var abbrev = {
-    "source": "https://en.wikipedia.org/wiki/List_of_chords",
-
     "major": ["Major", "A major triad is a chord that has a root, major third, and perfect fifth."],
     "9sus4": ["9 Suspended 4", "A jazz sus chord or dominant 9sus4 chord is a seventh chord on the fifth scale degree of the key with a suspended fourth and an added ninth."],
     "sus2": ["Suspended 2", "A suspended chord occurs when the third is omitted, replaced with either a perfect fourth or a major second."],
     "add9": ["Added 9th", "The add9 chord is a major triad  with an added ninth."],
     "madd9": ["Minor Added 9th", "The 6/9 chord is a 5-note chord, with a major triad extended by a sixth and ninth above the root, but no seventh."],
-    "minor9": ["Minor 9th", "A minor 9th chord is a chord having a root, a minor third, a perfect fifth, a minor seventh and a major ninth."],
+    "minor9": ["Minor 9th", "A minor 9th chord is a chord consisting of a root, a minor third, a perfect fifth, a minor seventh and a major ninth."],
     "major6": ["Major 6th", "A major 6th chord (not to be confused with the interval major sixth) is a major triad with an added sixth."],
     "major7": ["Major 7th", "A major seventh chord is a seventh chord in which the third is a major third above the root and the seventh is a major seventh above the root."],
     "major9": ["Major 9th", "A maj9 is a major seventh chord with a ninth added, or equivalently a major triad with an added major seventh and ninth."],
@@ -389,7 +434,7 @@ var abbrev = {
     "sus4": ["Suspended 4", "A suspended chord occurs when the third is omitted, replaced  with either a perfect fourth or a major second."],
     "7sus4": ["7 Suspended 4", "A 7sus4 chords consists of a suspended 4 chord with an added minor seventh."],
     "dominant7th": ["Dominant 7th", "A dominant seventh chord, or major minor seventh chord, is a seventh chord, usually built on the fifth degree of the major scale, and composed of a root, major third, perfect fifth, and minor seventh."],
-    "dominant9th": ["Dominant 9th", "A dominant ningth chord is a dominant seventh with an added ninth."],
+    "dominant9th": ["Dominant 9th", "A dominant ninth chord is a dominant seventh with an added ninth."],
     "augmented": ["Augmented", "An augmented triad is a chord made up of two major thirds."],
     "augmented7": ["Augmented 7th", "An augmented seventh chord, or seventh augmented fifth chord, consists of an augmented triad with an added major seventh."],
     "diminished": ["Diminished", "A diminished triad is a chord mad up of two minor thirds."],
