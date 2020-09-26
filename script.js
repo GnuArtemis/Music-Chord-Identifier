@@ -1,10 +1,14 @@
 // Click event to set piano key depress
-$("#keyboard").on("click", ".key", function (e) {
+function clickKey() {
     const keyPressed = $(this);
     if (keyPressed.attr("data-active") === "false") fnPlayNote(keyPressed.attr("data-note"), keyPressed.attr("data-octave"));
     keyPressed.attr("data-active", keyPressed.attr("data-active") === "false");
     setButtonState();
-})
+}
+
+//add to both keyboards
+$("#keyboard").on("click", ".key", clickKey);
+$("#keyboard-s").on("click", ".key", clickKey);
 
 // Submit event that parses the user input and passes it to our analysis functions in a better format
 $("#submit").on("click", function (e) {
@@ -335,6 +339,7 @@ function setButtonState() {
 // Activates the hamburger menu for external links in NAV bar.
 $(document).ready(function () {
     $('.sidenav').sidenav();
+    generateKeyboard(0, 0, document.getElementById("keyboard-s"));
     generateKeyboard(0, 1, document.getElementById("keyboard"));
     $(".preloader-wrapper").hide();
     setButtonState();
