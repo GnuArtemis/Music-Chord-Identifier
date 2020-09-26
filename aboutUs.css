@@ -7,3 +7,6 @@ body {
         color: black;
     }
     
+#nav-text {
+    white-space: nowrap;
+}
