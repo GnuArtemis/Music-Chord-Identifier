@@ -1,4 +1,10 @@
 /* // Here we set up the background image and color in the case image does not load with some styling */
+/* html, body {
+  background-image: url("assets/kindpng_1298478.jpg");
+  background-color: gainsboro;
+  background-repeat: no-repeat;
+  background-size: cover;
+} */
 
 body {
   background-image: url("assets/kindpng_1298478.jpg");
