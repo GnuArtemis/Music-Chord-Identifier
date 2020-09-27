@@ -1,9 +1,9 @@
+/* // Here we add background image, color and some styling */
+
 body {
-    background-image: url("assets/about_us_background.jpg");
-    background: no-repeat;
-    background-size: cover;
-    }
-    .sidenav {
-        color: black;
-    }
-    
+    background-image: url("assets/kindpng_1298478.jpg");
+    background-color: ghostwhite;
+    background-repeat: no-repeat;
+    background-size: 200vh;
+}
+
