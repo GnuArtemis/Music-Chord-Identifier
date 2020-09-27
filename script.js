@@ -1,10 +1,14 @@
 // Click event to set piano key depress
-$("#keyboard").on("click", ".key", function (e) {
+function clickKey() {
     const keyPressed = $(this);
     if (keyPressed.attr("data-active") === "false") fnPlayNote(keyPressed.attr("data-note"), keyPressed.attr("data-octave"));
     keyPressed.attr("data-active", keyPressed.attr("data-active") === "false");
     setButtonState();
-})
+}
+
+//add to both keyboards
+$("#keyboard").on("click", ".key", clickKey);
+$("#keyboard-s").on("click", ".key", clickKey);
 
 // Submit event that parses the user input and passes it to our analysis functions in a better format
 $("#submit").on("click", function (e) {
@@ -19,8 +23,8 @@ $("#submit").on("click", function (e) {
         }
 
     })
-    // console.log(pressedKeys); //Legacy code for the purpose of testing
     refreshKeys();
+    $(".hide-when-searching").hide();
     getChord(pressedKeys, intervals);
 })
 
@@ -60,7 +64,6 @@ function getChord(notes, intervals) {
         }).then(function (response) {
 
             response = JSON.parse(response);
-            // console.log(response); // Legacy code for the purpose of testing
 
             //First, looks for an exact match with the function findExactFit. If none exists, findExactFit returns null, and thus we do a secondary search for the most likely results.
             if (!findExactFit(response, notes)) {
@@ -91,13 +94,20 @@ function findExactFit(response, notes) {
             if (response.chords[property][key].length === (exactMatchLength)) {
 
                 //DESIRED ANSWER IN DESIRED FORMAT
+                console.log(`${property} ${key}`);
+                
+                //updating page
                 $(".chord-result").text(`${property} ${abbrev[key][0]}`)
                 $(".chord-result").attr("chordCode", key);
                 $(".chord-result").attr("chordRoot", property);
-
-                displayChordImage(property, key);
-                displayChordSound(property, key);
+                let chord = property + formatAttr(key);
+                displayChordImage(chord);
+                displayChordSound(chord);
+                getChordProgressions(chord);
                 scales_chords_api_onload();
+                //end updating page
+
+                console.log(response.chords[property][key])
                 return true;
 
                 // response.chords[property][key].includes(notes[0]) || response.chords[property][key].includes(noteEquivalencies[notes[0]])
@@ -318,16 +328,14 @@ function setPageLoading(isLoading) {
     }
 }
 
-//Displays the static piano image with the resulting "exact match" chord
-function displayChordImage(chord, attribute) {
-    attribute = formatAttr(attribute);
-    $("#chord-image").html(`<ins class=\"scales_chords_api\" chord=\"${chord}${attribute}\" instrument=\"piano\" output=\"image\"></ins>`);
+function displayChordImage(chord) {
+    //attribute = formatAttr(attribute);
+    $("#chord-image").html(`<ins class=\"scales_chords_api\" chord=\"${chord}\" instrument=\"piano\" output=\"image\"></ins>`);
 }
 
-//Displays the label of the "exact match" chord in proximity to the paino
-function displayChordSound(chord, attribute) {
-    attribute = formatAttr(attribute);
-    $("#chord-sound").html(`<ins class=\"scales_chords_api\" chord=\"${chord}${attribute}\" instrument=\"piano\" output=\"sound\"></ins>`);
+function displayChordSound(chord) {
+    //attribute = formatAttr(attribute);
+    $("#chord-sound").html(`<ins class=\"scales_chords_api\" chord=\"${chord}\" instrument=\"piano\" output=\"sound\"></ins>`);
 }
 
 //Resets the keys after analysis
@@ -350,10 +358,12 @@ function setButtonState() {
 // Activates the hamburger menu for external links in NAV bar, activates the collapsible, generates the keyboard, opens the modal with directions if this is the first time the page has been visited
 $(document).ready(function () {
     $('.sidenav').sidenav();
+    generateKeyboard(0, 0, document.getElementById("keyboard-s"));
     generateKeyboard(0, 1, document.getElementById("keyboard"));
     $(".preloader-wrapper").hide();
     setButtonState();
     $('.collapsible').collapsible();
+    $(".hide-when-searching").hide();
     $('.modal').modal();
 
     if (!localStorage.getItem("visited")) {
@@ -444,3 +454,32 @@ var abbrev = {
 
 }
 
+//scraping stuff
+function getChordProgressions(chord) {
+    const progressionArea = $("#prog-area");
+    progressionArea.empty();
+    const start = "Chord Harmonized Progressions";
+    const end = "Scales Related to";
+    const separator = /<[^<>]*>/;
+    const url = "www.scales-chords.com/chord/piano/" + chord;
+    (async () => {
+        const response = await fetch("https://cors-anywhere.herokuapp.com/" + url);
+        let text = await response.text();
+        text = text.match(`${start}[\\s\\S]*${end}`)[0].split(separator);
+        let tokens = [];
+        
+        for (const str of text) {
+            if(str.trim().length!=0) tokens.push(str);
+        }
+        
+        progressionArea.append($("<div>").addClass("chord-prog-header").text(`Related chords in the key of ${chord.substring(0,chord.length-3)} major`));
+        progressionArea.append($("<div>").addClass("divider"));
+        const body = $("<div>").addClass("chord-prog-body");
+        progressionArea.append(body);
+        
+        for(let i = 2; i < 9; i++) {
+            body.append($("<span>").text(tokens[i]));
+        }
+        $(".hide-when-searching").show();
+      })()
+}

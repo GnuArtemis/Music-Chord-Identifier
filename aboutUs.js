@@ -71,7 +71,7 @@ $(document).ready(function () {
         linkLable: "",
       },
       linkedInLink: {
-        url: "#",
+        url: "https://www.linkedin.com/in/matthew-weber-884a03122/",
         linkLable: "Matt's LinkedIn",
       },
     },
