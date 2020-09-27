@@ -12,7 +12,6 @@ function clickKey() {
 function syncKeyboards(keyPressed) {
     if(keyPressed.attr("data-index") > 11) return;
     let otherBoard = keyPressed.parent().attr("id") === "keyboard" ? $("#keyboard-s") : $("#keyboard");
-    console.log(otherBoard);
     otherBoard.find(`.key[data-index=${keyPressed.attr("data-index")}]`).attr("data-active",keyPressed.attr("data-active"));
 }
 
@@ -117,7 +116,6 @@ function findExactFit(response, notes) {
                 scales_chords_api_onload();
                 //end updating page
 
-                console.log(response.chords[property][key])
                 return true;
 
             }

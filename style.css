@@ -10,7 +10,12 @@ body {
   background-image: url("assets/kindpng_1298478.jpg");
   background-color: gainsboro;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 200vh;
+}
+
+#answer-box {
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .chord-result {
@@ -36,10 +41,20 @@ body {
   margin: 0 auto;
 }
 
-.label {
+.labelb, .labelw {
   position: absolute;
-  bottom: 20px;
+  bottom: 15px;
+  font-size: 15px;
 }
+
+.labelb {
+  left: 5px;
+}
+
+.labelw {
+  left: 15px;
+}
+
 /* // Here we set position and style to keyboard and add specific colors and tone to each key */
 
 .key {
@@ -121,12 +136,28 @@ body {
   width: 70% !important;
 }
 
+#prog-area-header {
+  font-size: 20px;
+}
+
+.chord-prog-header {
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .chord-prog-body {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
 }
+
 /* prevent text wrap on med screen */
 #nav-text {
   white-space: nowrap;
+}
+
+@media only screen and (max-width: 600px) {
+  #nav-text {
+    font-size: 22px;
+  }
 }
