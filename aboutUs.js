@@ -61,7 +61,7 @@ $(document).ready(function () {
     matt: {
       name: "Matt Weber",
       blurb:
-        "I am a wizard with this coding biz already, and can get you out of many sticky situations. Hire me now! And I have a kid.",
+        "I'm a mechanical engineer turned programmer. The recent economic turmoil has given me an opportunity to make a career change and I look forward to making it happen.",
       gitHubLink: {
         url: "https://github.com/webermg",
         linkLable: "Matt's Github",
