@@ -92,9 +92,6 @@ function findExactFit(response, notes) {
         for (const key in response.chords[property]) {
 
             if (response.chords[property][key].length === (exactMatchLength)) {
-
-                //DESIRED ANSWER IN DESIRED FORMAT
-                console.log(`${property} ${key}`);
                 
                 //updating page
                 $(".chord-result").text(`${property} ${abbrev[key][0]}`)
@@ -103,14 +100,12 @@ function findExactFit(response, notes) {
                 let chord = property + formatAttr(key);
                 displayChordImage(chord);
                 displayChordSound(chord);
-                getChordProgressions(chord);
+                if(key === "major") getChordProgressions(chord);
                 scales_chords_api_onload();
                 //end updating page
 
                 console.log(response.chords[property][key])
                 return true;
-
-                // response.chords[property][key].includes(notes[0]) || response.chords[property][key].includes(noteEquivalencies[notes[0]])
 
             }
         }
@@ -202,8 +197,8 @@ function displayLikelyMatches(possibleMatches) {
                 $(".chord-result").attr("chordRoot", currChord[1]);
                 // $("#approx-result").text("" + currChord)
 
-                displayChordImage(currChord[0], currChord[1]);
-                displayChordSound(currChord[0], currChord[1]);
+                displayChordImage(`${currChord[0]}+${formatAttr(currChord[1])}`);
+                displayChordSound(`${currChord[0]}+${formatAttr(currChord[1])}`);
                 scales_chords_api_onload();
 
                 listener = i;
@@ -392,9 +387,39 @@ function modalInfo(event) {
     $("#def-header").text(abbrev[attribute][0]);
     $("#def-body").text(abbrev[attribute][1]);
 
-    displayChordImage(chord, attribute);
-    displayChordSound(chord, attribute);
+    displayChordImage(`${chord}${formatAttr(attribute)}`);
+    displayChordSound(`${chord}${formatAttr(attribute)}`);
     scales_chords_api_onload();
+}
+
+//Provides chord progressions for major or minor root chords
+function getChordProgressions(chord) {
+    const progressionArea = $("#prog-area");
+    progressionArea.empty();
+    const start = "Chord Harmonized Progressions";
+    const end = "Scales Related to";
+    const separator = /<[^<>]*>/;
+    const url = "www.scales-chords.com/chord/piano/" + chord;
+    (async () => {
+        const response = await fetch("https://cors-anywhere.herokuapp.com/" + url);
+        let text = await response.text();
+        text = text.match(`${start}[\\s\\S]*${end}`)[0].split(separator);
+        let tokens = [];
+        
+        for (const str of text) {
+            if(str.trim().length!=0) tokens.push(str);
+        }
+        
+        progressionArea.append($("<div>").addClass("chord-prog-header").text(`Related chords in the key of ${chord.substring(0,chord.length-3)} major`));
+        progressionArea.append($("<div>").addClass("divider"));
+        const body = $("<div>").addClass("chord-prog-body");
+        progressionArea.append(body);
+        
+        for(let i = 2; i < 9; i++) {
+            body.append($("<span>").text(tokens[i]));
+        }
+        $(".hide-when-searching").show();
+      })()
 }
 
 //Object redefining chord qualities for use in 2nd API (that plays the chord)
@@ -452,34 +477,4 @@ var abbrev = {
     "m7b5": ["Minor 7 flat 5", "Minor 7 flat 5 chords (m7b5), also known as Half-diminished chords, consist of a diminished triad with an added minor seventh."],
     "JimiHendrix": ["Jimi Hendrix Chord", "A 'Jimi Hendrix' chord consists of a dominant sevent with an added augmented ninth"]
 
-}
-
-//scraping stuff
-function getChordProgressions(chord) {
-    const progressionArea = $("#prog-area");
-    progressionArea.empty();
-    const start = "Chord Harmonized Progressions";
-    const end = "Scales Related to";
-    const separator = /<[^<>]*>/;
-    const url = "www.scales-chords.com/chord/piano/" + chord;
-    (async () => {
-        const response = await fetch("https://cors-anywhere.herokuapp.com/" + url);
-        let text = await response.text();
-        text = text.match(`${start}[\\s\\S]*${end}`)[0].split(separator);
-        let tokens = [];
-        
-        for (const str of text) {
-            if(str.trim().length!=0) tokens.push(str);
-        }
-        
-        progressionArea.append($("<div>").addClass("chord-prog-header").text(`Related chords in the key of ${chord.substring(0,chord.length-3)} major`));
-        progressionArea.append($("<div>").addClass("divider"));
-        const body = $("<div>").addClass("chord-prog-body");
-        progressionArea.append(body);
-        
-        for(let i = 2; i < 9; i++) {
-            body.append($("<span>").text(tokens[i]));
-        }
-        $(".hide-when-searching").show();
-      })()
 }
