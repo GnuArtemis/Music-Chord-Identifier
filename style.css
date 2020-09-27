@@ -4,7 +4,8 @@ body {
   background-image: url("assets/kindpng_1298478.jpg");
   background-color: gainsboro;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; 
+  
 }
 
 /* // Here we set position and style to keyboard and add specific colors and tone to each key */
