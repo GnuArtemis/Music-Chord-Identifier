@@ -1,9 +1,19 @@
 // Click event to set piano key depress
 function clickKey() {
     const keyPressed = $(this);
+    
     if (keyPressed.attr("data-active") === "false") fnPlayNote(keyPressed.attr("data-note"), keyPressed.attr("data-octave"));
     keyPressed.attr("data-active", keyPressed.attr("data-active") === "false");
+    syncKeyboards(keyPressed);
     setButtonState();
+}
+
+// Syncs first octave of both keyboards together
+function syncKeyboards(keyPressed) {
+    if(keyPressed.attr("data-index") > 11) return;
+    let otherBoard = keyPressed.parent().attr("id") === "keyboard" ? $("#keyboard-s") : $("#keyboard");
+    console.log(otherBoard);
+    otherBoard.find(`.key[data-index=${keyPressed.attr("data-index")}]`).attr("data-active",keyPressed.attr("data-active"));
 }
 
 //add to both keyboards
@@ -12,11 +22,12 @@ $("#keyboard-s").on("click", ".key", clickKey);
 
 // Submit event that parses the user input and passes it to our analysis functions in a better format
 $("#submit").on("click", function (e) {
+    const selector = $(window).width() > 600 ? "#keyboard .key" : "#keyboard-s .key";
     const pressedKeys = [];
     intervals = [];
     $("#possible-results").empty();
     $("#approx-result").empty();
-    $(".key").each(function () {
+    $(selector).each(function () {
         if ($(this).attr("data-active") === "true") {
             intervals.push($(this).attr("data-index"))
             if (pressedKeys.indexOf($(this).attr("data-note")) === -1) pressedKeys.push($(this).attr("data-note"));
@@ -27,6 +38,8 @@ $("#submit").on("click", function (e) {
     $(".hide-when-searching").hide();
     getChord(pressedKeys, intervals);
 })
+
+//sync keyboards
 
 //This function takes the formatted user input, and depending on certain qualities, inputs it into the most relevant algorithmic analysis
 function getChord(notes, intervals) {
