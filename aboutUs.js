@@ -108,7 +108,7 @@ $(document).ready(function () {
       },
       linkedInLink: {
         url: "#",
-        linkLable: "Scott's LinkedIn",
+        linkLable: "https://www.linkedin.com/in/scott-dancer-9744091b2/",
       },
     },
   };

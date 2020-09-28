@@ -10,7 +10,7 @@ body {
   background-image: url("assets/kindpng_1298478.jpg");
   background-color: gainsboro;
   background-repeat: no-repeat;
-  background-size: 200vh;
+  background-size: auto;
 }
 
 #answer-box {
