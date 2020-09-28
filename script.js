@@ -48,6 +48,7 @@ function getChord(notes, intervals) {
         $("#answer-box").text("Chords require at least one note.");
     } else if (notes.length === 1) {
         $("#answer-box").text(`Unison on ${notes[0]}`);
+        // When the user selects two notes within an octive, the result of the interval will be displayed on the top card
         if (intervals.length === 2) $("#answer-box").text("Octave")
     } else if (notes.length === 2) {
         onlyTwoNotes(notes, intervals);
