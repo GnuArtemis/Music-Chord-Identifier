@@ -10,8 +10,11 @@ We are using materialize and an open-source Javascript keyboard to display the p
 
 ## Technologies Used
 [API/Reverse Chord Identifier](www.tofret.com/reverse-chord-finder)
+
 [API/Chord Sound, Piano Display, and Progression](https://www.scales-chords.com/api/)
+
 [Materialize](https://materializecss.com/)
+
 [Audiosynth.js and playKeyboard.js](https://1000mileworld.com/Portfolio/Piano/keyboard.html)
 
 
@@ -29,7 +32,9 @@ THEN I can see a visual respresentation and hear an example
 
 ## Further information and Deployed Site
 [Website](https://gnuartemis.github.io/Music-Chord-Identifier/index.html)
+
 [GitHub](https://github.com/GnuArtemis/Music-Chord-Identifier) 
+
 
 ## Visuals
 TODO: 2=3 Screenshots here
@@ -51,10 +56,15 @@ Please make sure to update tests as appropriate.
 ## Auhors and Acknowledgement
 For further information, feel free to contact me at annmguinee@gmail.com.
 [Ann Guinee](https://github.com/GnuArtemis)
+
 [Caitlin Bouroncle](https://github.com/caitlinbou)
+
 [Matt Weber](https://github.com/webermg)
+
 [Scott Dancer](https://github.com/ScottDancer)
+
 [Petar Zivkovic](https://github.com/Petar85)
+
 
 ## License
 [MIT]Copyright (c) [2020] [Ann Guinee, Caitlin Bouroncle, Matt Weber, Scott Dancer, Petar Zivkovic]
