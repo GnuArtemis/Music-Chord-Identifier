@@ -42,9 +42,11 @@ THEN I can see a visual respresentation and hear an example
 *Plugging in a chord with an exact match*
 
 
+
 ![image](https://user-images.githubusercontent.com/69055538/94384218-daef4200-00f6-11eb-8fcc-998ce9f0896e.png)
 
 *Plugging in a chord WITHOUT an exact match*
+
 
 
 ![image](https://user-images.githubusercontent.com/69055538/94384309-20137400-00f7-11eb-945a-b24556a6a2be.png)
@@ -52,14 +54,16 @@ THEN I can see a visual respresentation and hear an example
 *Mobile view--Portrait*
 
 
+
 ![image](https://user-images.githubusercontent.com/69055538/94384415-6668d300-00f7-11eb-81b3-0a53d25c82bd.png)
 
-*Mobile view-Landscape~
+*Mobile view-Landscape*
 
 
 ![image](https://user-images.githubusercontent.com/69055538/94384623-e2631b00-00f7-11eb-949f-c13672c076f5.png)
 
 *About us page*
+
 
 
 ## Contributing
