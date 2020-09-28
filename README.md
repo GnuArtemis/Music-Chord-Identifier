@@ -67,7 +67,8 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
  
 ## Auhors and Acknowledgement
-For further information, feel free to contact me at annmguinee@gmail.com.
+For further information, feel free to contact at annmguinee@gmail.com.
+
 [Ann Guinee](https://github.com/GnuArtemis)
 
 [Caitlin Bouroncle](https://github.com/caitlinbou)
