@@ -43,7 +43,7 @@ $(document).ready(function () {
     ann: {
       name: "Ann Guinee",
       blurb:
-        "I am a musician, a mathematician, and the Concept Creator of this project. I am thrilled to work with this team to further my coding skills and bring this idea to life.",
+        "I am a musician, a math enthusiast, and the Concept Creator of this project. I am thrilled to work with this team to further my coding skills and bring this idea to life.",
       gitHubLink: {
         url: "https://github.com/GnuArtemis",
         linkLable: "Ann's Github",
