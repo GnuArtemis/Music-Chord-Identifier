@@ -9,7 +9,7 @@ We are using materialize and an open-source Javascript keyboard to display the p
 
 
 ## Technologies Used
-[API/Reverse Chord Identifier](www.tofret.com/reverse-chord-finder)
+[API/Reverse Chord Identifier](http://www.tofret.com/api/)
 
 [API/Chord Sound, Piano Display, and Progression](https://www.scales-chords.com/api/)
 
