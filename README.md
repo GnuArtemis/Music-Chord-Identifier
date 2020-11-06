@@ -1,5 +1,6 @@
 # Music-Chord-Identifier
-
+## Deployed Link
+https://gnuartemis.github.io/Music-Chord-Identifier/index.html
 ## Description
 Our goal with this project is to create a simple, accessible tool that can be used for learning basic music theory at an approximately 5th-grade level. By way of a virtual keyboard, users can designate note combinations, and upon submission, an analysis of the chord (root and quality, or interval type if less than 3 unique notes) will be displayed. The program displays an exact match if one can be found, and the most likely result with side list of less likely results if no exact match exists. Upon recieving a chordal input, users can also seek out further information about each chord, with a piano representation, a sound byte example, and in certain situations a definition.
 
